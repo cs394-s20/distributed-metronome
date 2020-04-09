@@ -37,6 +37,10 @@
   }
 }
 
+.text{
+  color:blue;
+}
+
 p{
   color: red;
   font-style: italic;
