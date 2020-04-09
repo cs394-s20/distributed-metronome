@@ -25,6 +25,7 @@ function App() {
           Learn React
         </a>
         <p>a nice day</p>
+        <p>Chelly contributed</p>
       </header>
     </div>
   );
