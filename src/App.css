@@ -37,6 +37,11 @@
   }
 }
 
+.title {
+    font-style: oblique;
+    font-size: calc(15px + 2vmin);
+}
+
 .text{
   color:blue;
 }
