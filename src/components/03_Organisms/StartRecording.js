@@ -1,14 +1,13 @@
 import React from 'react';
-import { ReactMic } from 'react-mic';
+// import { ReactMic } from 'react-mic';
+import {ReactMic} from '@cleandersonlobo/react-mic';
  
 export default class Example extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      record: false,
-      bloburl: ""
+      record: false
     }
-    // bloburl = null
  
   }
  
@@ -26,15 +25,18 @@ export default class Example extends React.Component {
  
   onData = (recordedBlob) => {
     console.log('chunk of real-time data is: ', recordedBlob);
-    // console.log("Blah: ", recordedBlob["BlobURL"])
   }
  
   onStop = (recordedBlob) => {
     console.log('recordedBlob is: ', recordedBlob);
     console.log("Blah: ", recordedBlob["blobURL"]);
-    this.setState({
-      bloburl: recordedBlob["blobURL"]
-    })
+    
+    const link = document.createElement('a');
+    link.href = recordedBlob["blobURL"];
+    link.download = "recording"
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
   }
  
@@ -51,7 +53,6 @@ export default class Example extends React.Component {
           mimeType="audio/mp3" />
         <button onClick={this.startRecording} type="button">Start</button>
         <button onClick={this.stopRecording} type="button">Stop</button>
-        <a download="recording.webm" href= {this.state.bloburl}>DOWNLOAD HERE</a>
       </div>
     );
   }
