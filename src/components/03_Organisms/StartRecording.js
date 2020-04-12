@@ -1,5 +1,6 @@
 import React from 'react';
-import { ReactMic } from 'react-mic';
+// import { ReactMic } from 'react-mic';
+import {ReactMic} from '@cleandersonlobo/react-mic';
  
 export default class Example extends React.Component {
   constructor(props) {
@@ -50,7 +51,7 @@ export default class Example extends React.Component {
           backgroundColor="#FF4081" />
         <button onClick={this.startRecording} type="button">Start</button>
         <button onClick={this.stopRecording} type="button">Stop</button>
-        <a download="recording.webm" href= {this.state.bloburl}>DOWNLOAD HERE</a>
+        <a download="recording" href= {this.state.bloburl}>DOWNLOAD HERE</a>
       </div>
     );
   }
