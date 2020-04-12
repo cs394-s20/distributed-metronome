@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Home from './components/03_Organisms/Home';
 import JoinSession from './components/03_Organisms/JoinSession';
+import StartRecording from './components/03_Organisms/StartRecording';
 
 function Controller(){
     const [page, setPage] = useState('home')
@@ -11,6 +12,9 @@ function Controller(){
 
     if (page == 'joinSession'){
         return <JoinSession setPage={setPage}/>
+    }
+    if (page == 'startRecording'){
+        return <StartRecording setPage={setPage}/>
     }
 }
 

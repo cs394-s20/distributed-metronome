@@ -10,7 +10,7 @@ function JoinSession(props) {
             </div>
             <div class="flexRow justifyContentCenter">
                 <input type="button" value="Back" class="button--red button--small" onClick={() => props.setPage('home')} />
-                <input type="submit" value="Enter" class="button--green button--small" />
+                <input type="submit" value="Enter" class="button--green button--small" onClick={() => props.setPage('startRecording')}/>
             </div>
         </form>
     )
