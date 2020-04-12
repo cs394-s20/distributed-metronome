@@ -1,32 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Home from './components/03_Organisms/Home';
+import JoinSession from './components/03_Organisms/JoinSession'
+import Controller from './Controller';
+import './styles/styles.scss';
+import StartRecording from './components/03_Organisms/StartRecording';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload (John was here).
-        </p>
-		<p className="Title">
-			Metronome
-		</p>
-        <p className="text">
-          Bradley contributed.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <p>a nice day</p>
-        <p>Chelly contributed</p>
-      </header>
+      <div class="header">
+        <h1>Metronome</h1>
+      </div>
+      <div class="content">
+        {/* <Controller /> */}
+        <StartRecording/>
+      </div>
     </div>
   );
 }
