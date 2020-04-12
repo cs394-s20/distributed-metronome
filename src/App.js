@@ -1,5 +1,6 @@
 import React from 'react';
 import './styles/styles.scss';
+import Controller from './Controller';
 import StartRecording from './components/03_Organisms/StartRecording';
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
         <h1>Metronome</h1>
       </div>
       <div className="content">
-        <StartRecording/>
+        <Controller/>
       </div>
     </div>
   );

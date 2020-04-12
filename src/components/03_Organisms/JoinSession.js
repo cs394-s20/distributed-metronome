@@ -9,12 +9,12 @@ class JoinSession extends React.Component{
     render = () =>{
         return(
             <form>
-                <div class="flexRow">
+                <div class="flexRow alignItemsCenter">
                     <p>Session Code:</p>
                     <input type="text" />
                 </div>
-                <div>
-                    <input type="button" value="Back" class="button--red button--small" />
+                <div class="flexRow justifyContentCenter">
+                    <input type="button" value="Back" class="button--red button--small" onClick={() => this.props.changeScreen('home')}/>
                     <input type="submit" value="Enter" class="button--green button--small" />
                 </div>
             </form>

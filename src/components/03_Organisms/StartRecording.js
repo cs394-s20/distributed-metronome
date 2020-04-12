@@ -40,8 +40,8 @@ export default class Example extends React.Component {
           onData={this.onData}
           strokeColor="#000000"
           backgroundColor="#FF4081" />
-        <button onTouchTap={this.startRecording} type="button">Start</button>
-        <button onTouchTap={this.stopRecording} type="button">Stop</button>
+        <button onClick={this.startRecording} type="button">Start</button>
+        <button onClick={this.stopRecording} type="button">Stop</button>
       </div>
     );
   }

@@ -11,7 +11,7 @@ class Home extends React.Component{
             <React.Fragment>
                 <h2>The easy way to record and stream multipart pieces without any lag.</h2>
                 <button class="button--green">Start Session</button>
-                <button class="button--blue" onPress={() => this.props.changeScreen('joinSession')}>Join Session</button>
+                <button class="button--blue" onClick={() => this.props.changeScreen('joinSession')}>Join Session</button>
             </React.Fragment>
         );
     }

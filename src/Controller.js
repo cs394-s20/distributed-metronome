@@ -1,5 +1,6 @@
 import React from 'react';
 import Home from './components/03_Organisms/Home';
+import JoinSession from './components/03_Organisms/JoinSession';
 
 class Controller extends React.Component{
     constructor(props){
@@ -23,7 +24,7 @@ class Controller extends React.Component{
         }
         if (this.state.page == 'joinSession'){
             return(
-                <div><p>test</p></div>
+                <JoinSession changeScreen={this.changeScreen}/>
             )
         }
     }
