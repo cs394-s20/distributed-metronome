@@ -1,59 +1,48 @@
-import React from 'react';
-// import { ReactMic } from 'react-mic';
-import {ReactMic} from '@cleandersonlobo/react-mic';
- 
-export default class Example extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      record: false
-    }
- 
+import React, { useState } from 'react';
+import { ReactMic } from '@cleandersonlobo/react-mic';
+import '../../styles/styles.scss';
+
+function StartRecording(props) {
+  const [record, setRecord] = useState(false);
+
+  const toggleRecording = () => {
+    setRecord(!record)
   }
- 
-  startRecording = () => {
-    this.setState({
-      record: true
-    });
-  }
- 
-  stopRecording = () => {
-    this.setState({
-      record: false
-    });
-  }
- 
-  onData = (recordedBlob) => {
+
+  const onData = (recordedBlob) => {
     console.log('chunk of real-time data is: ', recordedBlob);
   }
- 
-  onStop = (recordedBlob) => {
+
+  const onStop = (recordedBlob) => {
     console.log('recordedBlob is: ', recordedBlob);
     console.log("Blah: ", recordedBlob["blobURL"]);
-    
+
     const link = document.createElement('a');
     link.href = recordedBlob["blobURL"];
     link.download = "recording"
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    props.setPage('confirmation')
+  }
 
-  }
- 
-  render() {
-    return (
+  var buttonMessage = record ? "Stop Recording" : "Start Recording"
+      return (
       <div>
-        <ReactMic
-          record={this.state.record}
-          className="sound-wave"
-          onStop={this.onStop}
-          onData={this.onData}
-          strokeColor="#000000"
-          backgroundColor="#FF4081"
-          mimeType="audio/mp3" />
-        <button onClick={this.startRecording} type="button">Start</button>
-        <button onClick={this.stopRecording} type="button">Stop</button>
+        <div class="flexRow justifyContentCenter">
+          <ReactMic
+            record={record}
+            className="sound-wave"
+            onStop={onStop}
+            onData={onData}
+            strokeColor="white"
+            backgroundColor="black"
+            mimeType="audio/mp3" />
+        </div>
+        <div class="flexRow justifyContentCenter">
+          <button onClick={toggleRecording} type="button" class={record ? "button--red" : "button--green"}>{buttonMessage}</button>
+        </div>
       </div>
-    );
-  }
+    )
 }
+export default StartRecording;
