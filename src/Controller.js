@@ -7,19 +7,19 @@ import Confirmation from './components/03_Organisms/Confirmation';
 function Controller(){
     const [page, setPage] = useState('home')
     
-    if (page == 'home'){
+    if (page === 'home'){
         return <Home setPage={setPage}/>
     }
 
-    if (page == 'joinSession'){
+    if (page === 'joinSession'){
         return <JoinSession setPage={setPage}/>
     }
 
-    if (page == 'startRecording'){
+    if (page === 'startRecording'){
         return <StartRecording setPage={setPage}/>
     }
 
-    if (page == 'confirmation'){
+    if (page === 'confirmation'){
         return <Confirmation setPage={setPage}/>
     }
 }

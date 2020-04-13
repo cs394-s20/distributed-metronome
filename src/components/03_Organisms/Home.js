@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../../styles/styles.scss';
 
 function Home(props){
     return (
         <React.Fragment>
             <h2>The easy way to record and stream multipart pieces without any lag.</h2>
-            <button class="button--green" onClick={() => props.setPage('startRecording')}>Start Session</button>
-            <button class="button--blue" onClick={() => props.setPage('joinSession')}>Join Session</button>
+            <button className="button--green" onClick={() => props.setPage('startRecording')}>Start Session</button>
+            <button className="button--blue" onClick={() => props.setPage('joinSession')}>Join Session</button>
         </React.Fragment>
     )
 }

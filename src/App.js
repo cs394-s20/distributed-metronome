@@ -1,7 +1,6 @@
 import React from 'react';
 import './styles/styles.scss';
 import Controller from './Controller';
-import StartRecording from './components/03_Organisms/StartRecording';
 
 function App() {
   return (
