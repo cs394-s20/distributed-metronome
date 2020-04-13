@@ -1,0 +1,13 @@
+@import "./colors.scss";
+@import "./flex.scss";
+@import "./fonts.scss";
+
+@import "../components/01_Atoms/buttons.scss";
+@import "../components/02_Molecules/header.scss";
+
+@import "../components/05_Pages/main.scss";
+
+.test{
+    height: 1000px;
+    width: 1000px;
+}
