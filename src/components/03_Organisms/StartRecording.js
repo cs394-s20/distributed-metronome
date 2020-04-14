@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { ReactMic } from '@cleandersonlobo/react-mic';
 import '../../styles/styles.scss';
 import RoomClient from '../../shared/RoomClient';
-// import Countdown from 'react-countdown-now';
-// import FancyButton from './FancyButton';
 
 const roomClient = new RoomClient('ws://18.217.104.101:3000');
 
