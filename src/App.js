@@ -7,12 +7,7 @@ import StartRecording from './components/03_Organisms/StartRecording';
 function App() {
   return (
     <div className="App">
-      <div className="header">
-        <Header/>
-      </div>
-      <div className="content">
-        <Controller/>
-      </div>
+      <Controller />
     </div>
   );
 }

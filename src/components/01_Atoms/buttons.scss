@@ -17,11 +17,10 @@ button{
     }
     &--orange{
         background-color: $orange;
-        height: 50px !important;
-        width: 100px !important;
-        font-size: 15px;
-        margin-left: 80%
-
+        height: 50px;
+        width: 140px;
+        font-size: 16px;
+        font-weight: bold;
     }
     &--blue{
         background-color: $blue;

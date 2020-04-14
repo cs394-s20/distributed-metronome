@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import '../../styles/styles.scss';
 
 function Header(props) {
+    let leaveButton;
+    if (props.leaveButton){
+        leaveButton = (<button class="button--orange" onClick={() => props.setPage('home')}>Leave Session</button>);
+    }
     return (
-        <React.Fragment>
+        <div className="header">
             <h1>Metronome</h1>
-            <button class="button--orange" onClick={() => props.setPage('home')}>Join Session</button>
-        </React.Fragment>
+            {leaveButton}
+        </div>
     )
 }
 
