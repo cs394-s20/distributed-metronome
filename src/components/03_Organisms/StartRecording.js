@@ -76,7 +76,7 @@ function StartRecording(props) {
   var buttonMessage = record ? "Stop Recording" : "Start Recording"
       return (
       <div>
-        <div class="flexRow justifyContentCenter">
+        <div className="flexRow justifyContentCenter">
           <ReactMic
             record={record}
             className="sound-wave"
@@ -86,8 +86,8 @@ function StartRecording(props) {
             backgroundColor="black"
             mimeType="audio/mp3" />
         </div>
-        <div class="flexRow justifyContentCenter">
-          <button onClick={toggleRecording} type="button" class={record ? "button--red" : "button--green"}>{buttonMessage}</button>
+        <div className="flexRow justifyContentCenter">
+          <button onClick={toggleRecording} type="button" className={record ? "button--red" : "button--green"}>{buttonMessage}</button>
         </div>
         <div id="countdown"></div>
       </div>
