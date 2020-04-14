@@ -4,7 +4,7 @@ import sys
 import json
 import struct
 import audioop
-
+import datetime
 
 if len(sys.argv) < 2:
     port = 3000
@@ -15,6 +15,7 @@ STATE = {
     "rooms": {},
     "connections": []
 }
+MESSAGE_QUEUE = []
 
 async def hello(websocket, path):
     STATE['connections'].append(websocket)
@@ -24,17 +25,26 @@ async def hello(websocket, path):
             data_loaded = json.loads(data)
             if data_loaded["type"] == "data":
                 for channel in range(2):
-                    data_loaded["data"][channel] = [x for x in data_loaded["data"][channel]]    
+                    data_loaded["data"][channel] = [x for x in data_loaded["data"][channel]]
+                                
+                asyncio.create_task(send_message(websocket, json.dumps(data_loaded)))
 
-            elif data_loaded["type"] == "stop_metronome":
-                pass
+            elif data_loaded["type"] == "start_metronome":
+                start_time = datetime.datetime.utcnow().timestamp() + 5
+                data_loaded = {"type": "start_metronome", "data":{"ts":  start_time}}
+                asyncio.create_task(send_all(json.dumps(data_loaded)))
 
-            await websocket.send(json.dumps(data_loaded))
     except Exception as e:
         print(e)
     STATE['connections'].remove(websocket)
 
+async def send_all(message):
+    for websocket in STATE['connections']:
+        if websocket.open is True:
+            asyncio.create_task(send_message(websocket, message))
 
+async def send_message(websocket, message):
+    await websocket.send(message)
     
 
 start_server = websockets.serve(hello, "0.0.0.0", port)
