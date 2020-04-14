@@ -3,7 +3,7 @@ import { ReactMic } from '@cleandersonlobo/react-mic';
 import '../../styles/styles.scss';
 import RoomClient from '../../shared/RoomClient';
 // import Countdown from 'react-countdown-now';
-import FancyButton from './FancyButton';
+// import FancyButton from './FancyButton';
 
 const roomClient = new RoomClient('ws://18.217.104.101:3000');
 
@@ -12,13 +12,29 @@ var recording = false;
 function StartRecording(props) {
   const [record, setRecord] = useState(false);
 
-  if(record) {
-    recording = true;
+
+  const toggleRecording = () => {
+    if (!record){
+      var timeleft = 3;
+      var downloadTimer = setInterval(function(){
+        if(timeleft <= 0){
+          recording = true;
+          clearInterval(downloadTimer);
+          setRecord(!record)
+          document.getElementById("countdown").innerHTML = "";
+        } else {
+          document.getElementById("countdown").innerHTML = timeleft;
+        }
+        timeleft -= 1;
+      }, 1000);
+    }
+    else{
+      recording = false;
+      setRecord(!record)
+    }
+
   }
-  else{
-    recording = false;
-  }
-  console.log(recording);
+
 
   const handleSuccess = function (stream) {
     const context = new AudioContext();
@@ -58,24 +74,25 @@ function StartRecording(props) {
     props.setPage('confirmation')
   }
 
-  return (
-    <div>
-      <div className="flexRow justifyContentCenter">
-        <ReactMic
-          record={record}
-          className="sound-wave"
-          onStop={onStop}
-          onData={onData}
-          strokeColor="white"
-          backgroundColor="black"
-          mimeType="audio/mp3"
-          id='react-mic' />
+
+  var buttonMessage = record ? "Stop Recording" : "Start Recording"
+      return (
+      <div>
+        <div class="flexRow justifyContentCenter">
+          <ReactMic
+            record={record}
+            className="sound-wave"
+            onStop={onStop}
+            onData={onData}
+            strokeColor="white"
+            backgroundColor="black"
+            mimeType="audio/mp3" />
+        </div>
+        <div class="flexRow justifyContentCenter">
+          <button onClick={toggleRecording} type="button" class={record ? "button--red" : "button--green"}>{buttonMessage}</button>
+        </div>
+        <div id="countdown"></div>
       </div>
-      <div className="flexRow justifyContentCenter">
-        {/* <button onClick={toggleRecording} type="button" className={startCount ? "button--yellow" : record ? "button--red" : "button--green"}>{buttonMessage}</button> */}
-        <FancyButton setRecord={setRecord} record={record}></FancyButton>
-      </div>
-    </div>
   )
 }
 export default StartRecording;
