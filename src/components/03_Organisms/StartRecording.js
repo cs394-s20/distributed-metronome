@@ -6,7 +6,22 @@ function StartRecording(props) {
   const [record, setRecord] = useState(false);
 
   const toggleRecording = () => {
-    setRecord(!record)
+    if (!record){
+      var timeleft = 3;
+      var downloadTimer = setInterval(function(){
+        if(timeleft <= 0){
+          clearInterval(downloadTimer);
+          setRecord(!record)
+          document.getElementById("countdown").innerHTML = "";
+        } else {
+          document.getElementById("countdown").innerHTML = timeleft;
+        }
+        timeleft -= 1;
+      }, 1000);
+    }
+    else{
+      setRecord(!record)
+    }
   }
 
   const onData = (recordedBlob) => {
@@ -29,6 +44,7 @@ function StartRecording(props) {
   var buttonMessage = record ? "Stop Recording" : "Start Recording"
       return (
       <div>
+        <div id="countdown"></div>
         <div class="flexRow justifyContentCenter">
           <ReactMic
             record={record}
