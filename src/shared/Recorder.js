@@ -50,7 +50,6 @@ export default class Recorder {
             myArrayBuffer.copyToChannel(Float32Array.from(buffer[channel]), channel);
             
         }
-        console.log(myArrayBuffer);
         
         var test = context.createBufferSource();
 

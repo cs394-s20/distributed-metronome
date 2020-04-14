@@ -2,85 +2,41 @@ import React, { useState } from 'react';
 import { ReactMic } from '@cleandersonlobo/react-mic';
 import '../../styles/styles.scss';
 import RoomClient from '../../shared/RoomClient';
-<<<<<<< HEAD
 import Recorder from '../../shared/Recorder';
 
-
 const recorder = new Recorder();
-const roomClient = new RoomClient('ws://18.217.104.101:3000', false, false, false, function(e){recorder.playBuffer(e);});
-recorder.processor = function(e){
-  var channels = [];
-  channels.push(e.inputBuffer.getChannelData(0));
-  channels.push(e.inputBuffer.getChannelData(1));
-  roomClient.sendVideo(channels);
+const roomClient = new RoomClient('ws://localhost:3001');
+
+function hedge(f){
+  return Math.max(-1.0, Math.min(f, 1.0));
 }
 
-var recording = false;
-var buffer = [];
-=======
+roomClient.onData = function(e){
+  console.log(e[0])
+  e[0] = new Float32Array(e[0].map(x => hedge(x)));
+  e[1] = new Float32Array(e[1].map(x => hedge(x)));
+  recorder.playBuffer(e);
+};
 
-const roomClient = new RoomClient('ws://localhost:3002');
-// console.log("Starting RoomClient")
-
-// const handleSuccess = function (stream) {
-//   const context = new AudioContext();
-//   const source = context.createMediaStreamSource(stream);
-//   const processor = context.createScriptProcessor(1024, 1, 1);
-
-//   source.connect(processor);
-//   processor.connect(context.destination);
-
-//   processor.onaudioprocess = function (e) {
-//     // Do something with the data, e.g. convert it to WAV
-//     console.log(e.inputBuffer.getChannelData(0));
-//   };
-// };
-
-// navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-//   .then(handleSuccess);
+recorder.processor = function(e){
+  var channels = [];
+  channels.push(Array.prototype.slice.call(e.inputBuffer.getChannelData(0)));
+  channels.push(Array.prototype.slice.call(e.inputBuffer.getChannelData(1)));
+  roomClient.sendMedia(channels);
+};
 
 var recording = false;
->>>>>>> server
 
 function StartRecording(props) {
   const [record, setRecord] = useState(false);
 
-<<<<<<< HEAD
   const toggleRecording = () => {
     if(record) {
       roomClient.stopMetronome();
-      console.log(buffer);
       recorder.stopRecording();
     }
     else{
       recorder.startRecording();
-=======
-  const handleSuccess = function (stream) {
-    const context = new AudioContext();
-    const source = context.createMediaStreamSource(stream);
-    const processor = context.createScriptProcessor(1024, 1, 1);
-
-    source.connect(processor);
-    processor.connect(context.destination);
-
-    processor.onaudioprocess = function (e) {
-      // Do something with the data, e.g. convert it to WAV
-      if (recording) {
-        // console.log(e.inputBuffer.getChannelData(0));
-        // console.log("hello");
-        console.log(e);
-        roomClient.sendVideo(e.inputBuffer.getChannelData(0));
-      }
-    };
-  };
-  navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-    .then(handleSuccess);
-
-
-  const toggleRecording = () => {
-    if(record) {
-      roomClient.stopMetronome();
->>>>>>> server
     }
     setRecord(!record);
     recording = !recording;
