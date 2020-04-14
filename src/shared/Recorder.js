@@ -15,7 +15,7 @@ export default class Recorder {
         const context = new AudioContext();
         const filt = context.createBiquadFilter();
         const source = context.createMediaStreamSource(stream);
-        const processor = context.createScriptProcessor(8192, 2, 1);
+        const processor = context.createScriptProcessor(1024, 2, 1);
         
         
         

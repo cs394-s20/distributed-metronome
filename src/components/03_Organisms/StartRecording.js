@@ -6,22 +6,28 @@ import Recorder from '../../shared/Recorder';
 
 const recorder = new Recorder();
 const roomClient = new RoomClient('ws://18.217.104.101:3000');
+var chunks_sent = 0;
+var chunks_rec = 0;
 
 function hedge(f){
   return Math.max(-1.0, Math.min(f, 1.0));
 }
 
 roomClient.onData = function(e){
-  console.log(e[0])
+  console.log("Recieved: "  + (++chunks_rec).toString());
   e[0] = new Float32Array(e[0].map(x => hedge(x)));
   e[1] = new Float32Array(e[1].map(x => hedge(x)));
   recorder.playBuffer(e);
 };
+roomClient.onMetronomeStart = function(e){
+  console.log(e);
+}
 
 recorder.processor = function(e){
   var channels = [];
   channels.push(Array.prototype.slice.call(e.inputBuffer.getChannelData(0)));
   channels.push(Array.prototype.slice.call(e.inputBuffer.getChannelData(1)));
+  console.log("Sent: "  + (++chunks_sent).toString());
   roomClient.sendMedia(channels);
 };
 
@@ -36,6 +42,7 @@ function StartRecording(props) {
       recorder.stopRecording();
     }
     else{
+      roomClient.startMetronome();
       recorder.startRecording();
     }
     setRecord(!record);
