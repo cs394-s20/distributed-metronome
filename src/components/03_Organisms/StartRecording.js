@@ -13,9 +13,11 @@ function StartRecording(props) {
 
   const toggleRecording = () => {
     if (!record){
+      document.getElementById("button-1").disabled = true;
       var timeleft = 3;
       var downloadTimer = setInterval(function(){
         if(timeleft <= 0){
+          document.getElementById("button-1").disabled = false;
           recording = true;
           clearInterval(downloadTimer);
           setRecord(!record)
@@ -87,7 +89,7 @@ function StartRecording(props) {
             mimeType="audio/mp3" />
         </div>
         <div className="flexRow justifyContentCenter">
-          <button onClick={toggleRecording} type="button" className={record ? "button--red" : "button--green"}>{buttonMessage}</button>
+          <button onClick={toggleRecording} type="button" id="button-1" className={record ? "button--red" : "button--green"}>{buttonMessage}</button>
         </div>
         <div id="countdown"></div>
       </div>
