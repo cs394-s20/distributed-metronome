@@ -5,7 +5,7 @@ import RoomClient from '../../shared/RoomClient';
 import Recorder from '../../shared/Recorder';
 
 const recorder = new Recorder();
-const roomClient = new RoomClient('ws://localhost:3001');
+const roomClient = new RoomClient('ws://18.217.104.101:3000');
 
 function hedge(f){
   return Math.max(-1.0, Math.min(f, 1.0));
