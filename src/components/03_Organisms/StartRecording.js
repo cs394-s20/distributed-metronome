@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ReactMic } from '@cleandersonlobo/react-mic';
 import '../../styles/styles.scss';
 import RoomClient from '../../shared/RoomClient';
+<<<<<<< HEAD
 import Recorder from '../../shared/Recorder';
 
 
@@ -16,10 +17,35 @@ recorder.processor = function(e){
 
 var recording = false;
 var buffer = [];
+=======
+
+const roomClient = new RoomClient('ws://localhost:3002');
+// console.log("Starting RoomClient")
+
+// const handleSuccess = function (stream) {
+//   const context = new AudioContext();
+//   const source = context.createMediaStreamSource(stream);
+//   const processor = context.createScriptProcessor(1024, 1, 1);
+
+//   source.connect(processor);
+//   processor.connect(context.destination);
+
+//   processor.onaudioprocess = function (e) {
+//     // Do something with the data, e.g. convert it to WAV
+//     console.log(e.inputBuffer.getChannelData(0));
+//   };
+// };
+
+// navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+//   .then(handleSuccess);
+
+var recording = false;
+>>>>>>> server
 
 function StartRecording(props) {
   const [record, setRecord] = useState(false);
 
+<<<<<<< HEAD
   const toggleRecording = () => {
     if(record) {
       roomClient.stopMetronome();
@@ -28,6 +54,33 @@ function StartRecording(props) {
     }
     else{
       recorder.startRecording();
+=======
+  const handleSuccess = function (stream) {
+    const context = new AudioContext();
+    const source = context.createMediaStreamSource(stream);
+    const processor = context.createScriptProcessor(1024, 1, 1);
+
+    source.connect(processor);
+    processor.connect(context.destination);
+
+    processor.onaudioprocess = function (e) {
+      // Do something with the data, e.g. convert it to WAV
+      if (recording) {
+        // console.log(e.inputBuffer.getChannelData(0));
+        // console.log("hello");
+        console.log(e);
+        roomClient.sendVideo(e.inputBuffer.getChannelData(0));
+      }
+    };
+  };
+  navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+    .then(handleSuccess);
+
+
+  const toggleRecording = () => {
+    if(record) {
+      roomClient.stopMetronome();
+>>>>>>> server
     }
     setRecord(!record);
     recording = !recording;
