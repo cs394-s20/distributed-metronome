@@ -17,6 +17,7 @@ export default class Recorder {
         this.playBackBuffer = null;
         this.chunks = [[], []];
         this.chunks_recorded = 0;
+        this.chunks_returned = 0;
         
 
         this.record = false;
@@ -79,12 +80,14 @@ export default class Recorder {
     }
 
     saveChunk(buffer){
+        this.chunks_returned += 1;
         for (var c = 0; c < 2; c++){
             this.chunks[c].extend(buffer[c]);
         }
     }
 
-    saveRecording(){
+    async saveRecording(){
+
         var myArrayBuffer = this.context.createBuffer(2, this.chunks[0].length, 48000);
         
         for (var channel = 0; channel < myArrayBuffer.numberOfChannels; channel++) {

@@ -27,7 +27,6 @@ async def hello(websocket, path):
     try:
         while True:
             data = await websocket.recv()
-            print(websocket)
             
             data_loaded = json.loads(data)
             
