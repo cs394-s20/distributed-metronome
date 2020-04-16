@@ -1,9 +1,23 @@
+import audioBufferToWav from 'audiobuffer-to-wav';
+
+Array.prototype.extend = function (other_array) {
+    /* You should include a test to check whether other_array really is an array */
+    other_array.forEach(function(v) {this.push(v)}, this);
+}
+
 export default class Recorder {
     constructor(processor) {
         this.handleSuccess = this.handleSuccess.bind(this);
         this.startRecording = this.startRecording.bind(this);
         this.stopRecording = this.stopRecording.bind(this);
         this.playBuffer = this.playBuffer.bind(this);
+        this.saveRecording = this.saveRecording.bind(this);
+        this.saveChunk.bind(this);
+        this.context = null;
+        this.playBackBuffer = null;
+        this.chunks = [[], []];
+        this.chunks_recorded = 0;
+        
 
         this.record = false;
         this.processor = processor
@@ -12,16 +26,12 @@ export default class Recorder {
     }
 
     handleSuccess = function (stream) {
-        const context = new AudioContext();
-        const filt = context.createBiquadFilter();
-        const source = context.createMediaStreamSource(stream);
-        const processor = context.createScriptProcessor(1024, 2, 1);
-        
-        
-        
+        this.context = new AudioContext();
+        const source = this.context.createMediaStreamSource(stream);
+        const processor = this.context.createScriptProcessor(8192, 2, 1);
         
         source.connect(processor);
-        processor.connect(context.destination);
+        processor.connect(this.context.destination);
 
         processor.onaudioprocess = function (e) {
             // Do something with the data, e.g. convert it to WAV
@@ -43,26 +53,59 @@ export default class Recorder {
     }
 
     playBuffer(buffer){
-        const context = new AudioContext();
-        var myArrayBuffer = context.createBuffer(2, 8192, 48000);
+        var myArrayBuffer = this.context.createBuffer(2, 8192, 48000);
+        
         for (var channel = 0; channel < myArrayBuffer.numberOfChannels; channel++) {
             
             myArrayBuffer.copyToChannel(Float32Array.from(buffer[channel]), channel);
             
         }
         
-        var test = context.createBufferSource();
+        var test = this.context.createBufferSource();
 
         // set the buffer in the AudioBufferSourceNode
         test.buffer = myArrayBuffer;
 
         // connect the AudioBufferSourceNode to the
         // destination so we can hear the sound
-        test.connect(context.destination);
+        test.connect(this.context.destination);
 
         // start the source playing
         test.start();
 
+        this.saveChunk(buffer);
+        
+
+    }
+
+    saveChunk(buffer){
+        for (var c = 0; c < 2; c++){
+            this.chunks[c].extend(buffer[c]);
+        }
+    }
+
+    saveRecording(){
+        var myArrayBuffer = this.context.createBuffer(2, this.chunks[0].length, 48000);
+        
+        for (var channel = 0; channel < myArrayBuffer.numberOfChannels; channel++) {
+            
+            myArrayBuffer.copyToChannel(Float32Array.from(this.chunks[channel]), channel);
+            
+        }
+        console.log(myArrayBuffer);
+        console.log(audioBufferToWav(myArrayBuffer));
+        var element = document.createElement('a');
+        element.href = URL.createObjectURL(new Blob([new DataView(audioBufferToWav(myArrayBuffer))], {
+            type: 'audio/wav'
+        }));
+        element.download = "recording.wav";
+      
+        element.style.display = 'none';
+        document.body.appendChild(element);
+      
+        element.click();
+      
+        document.body.removeChild(element);
     }
 
 }

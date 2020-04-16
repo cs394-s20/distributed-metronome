@@ -1,53 +1,38 @@
 import React, { useState } from 'react';
 import { ReactMic } from '@cleandersonlobo/react-mic';
 import '../../styles/styles.scss';
-import RoomClient from '../../shared/RoomClient';
-import Recorder from '../../shared/Recorder';
 
-const recorder = new Recorder();
-const roomClient = new RoomClient('ws://18.217.104.101:3000');
-var chunks_sent = 0;
-var chunks_rec = 0;
-
-function hedge(f){
-  return Math.max(-1.0, Math.min(f, 1.0));
-}
-
-roomClient.onData = function(e){
-  console.log("Recieved: "  + (++chunks_rec).toString());
-  e[0] = new Float32Array(e[0].map(x => hedge(x)));
-  e[1] = new Float32Array(e[1].map(x => hedge(x)));
-  recorder.playBuffer(e);
-};
-roomClient.onMetronomeStart = function(e){
-  console.log(e);
-}
-
-recorder.processor = function(e){
-  var channels = [];
-  channels.push(Array.prototype.slice.call(e.inputBuffer.getChannelData(0)));
-  channels.push(Array.prototype.slice.call(e.inputBuffer.getChannelData(1)));
-  console.log("Sent: "  + (++chunks_sent).toString());
-  roomClient.sendMedia(channels);
-};
 
 var recording = false;
 
 function StartRecording(props) {
-  const [record, setRecord] = useState(false);
+  const roomClient = props.appClient.roomClient;
+  const recorder = props.appClient.recorder;
 
+  const [record, setRecord] = useState(false);
+  const makeToggleRequest = () => {
+    if(record){
+      roomClient.stopMetronome();
+    }
+    else {
+      roomClient.startMetronome();
+    }
+  }
   const toggleRecording = () => {
     if(record) {
-      roomClient.stopMetronome();
+      
       recorder.stopRecording();
+      recorder.saveRecording();
     }
     else{
-      roomClient.startMetronome();
+      
       recorder.startRecording();
     }
     setRecord(!record);
     recording = !recording;
   }
+  roomClient.onMetronomeStart = toggleRecording;
+  roomClient.onMetronomeStop = toggleRecording;
 
   const onData = (recordedBlob) => {
     console.log('chunk of real-time data is: ', recordedBlob);
@@ -71,6 +56,7 @@ function StartRecording(props) {
   var buttonMessage = record ? "Stop Recording" : "Start Recording"
   return (
     <div>
+      <h3>Room Code: {roomClient.roomCode}</h3>
       <div className="flexRow justifyContentCenter">
         {/* <ReactMic
           record={record}
@@ -82,7 +68,7 @@ function StartRecording(props) {
           mimeType="audio/mp3" /> */}
       </div>
       <div className="flexRow justifyContentCenter">
-        <button onClick={toggleRecording} type="button" className={record ? "button--red" : "button--green"}>{buttonMessage}</button>
+        <button onClick={makeToggleRequest} type="button" className={record ? "button--red" : "button--green"}>{buttonMessage}</button>
       </div>
     </div>
   )

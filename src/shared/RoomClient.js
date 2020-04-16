@@ -1,12 +1,14 @@
 export default class RoomClient {
     constructor(url) {
-
+        this.roomCode = null;
         this.url = url;
         this.websocket = null;
         this.onMetronomeStart = this.doNothing;
         this.onMetronomeStop = this.doNothing;
         this.onListRoom = this.doNothing;
         this.onData = this.doNothing;
+        this.onCreateRoom = this.doNothing;
+        this.onJoinRoom = this.doNothing;
 
         this.connect = this.connect.bind(this);
         this.attachProcessors = this.attachProcessors.bind(this);
@@ -14,6 +16,8 @@ export default class RoomClient {
         this.startMetronome = this.startMetronome.bind(this);
         this.stopMetronome = this.stopMetronome.bind(this);
         this.sendMedia = this.sendMedia.bind(this);
+        this.createRoom = this.createRoom.bind(this);
+        this.joinRoom = this.joinRoom.bind(this);
 
         this.connect();
         this.attachProcessors();
@@ -50,6 +54,12 @@ export default class RoomClient {
             case "data":
                 this.onData(data.data);
                 break;
+            case "create_room":
+                this.onCreateRoom(data.data);
+                break;
+            case "join_room":
+                this.onJoinRoom(data.data);
+                break;
             default:
                 console.log("unknown data received");;
         }
@@ -66,7 +76,8 @@ export default class RoomClient {
     startMetronome() {
 
         let message = {
-            "type": "start_metronome"
+            "type": "start_metronome",
+            "ts": (new Date()).getTime()
         };
 
         this.send(JSON.stringify(message));
@@ -74,7 +85,8 @@ export default class RoomClient {
 
     stopMetronome() {
         let message = {
-            "type": "stop_metronome"
+            "type": "stop_metronome",
+            "ts": (new Date()).getTime()
         };
 
         this.send(JSON.stringify(message));
@@ -83,8 +95,30 @@ export default class RoomClient {
     sendMedia(data) {
         let message = {
             "type": "data",
+            "ts": (new Date()).getTime(),
             "data": data
         };
+
+        this.send(JSON.stringify(message));
+    }
+
+    createRoom(){
+        let message = {
+            "type" : "create_room",
+            ts: (new Date()).getTime()
+        }
+
+        this.send(JSON.stringify(message));
+    }
+
+    joinRoom(code){
+        let message = {
+            "type" : "join_room",
+            ts: (new Date()).getTime(),
+            "data": {
+                "code": code
+            }
+        }
 
         this.send(JSON.stringify(message));
     }
