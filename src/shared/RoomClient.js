@@ -66,7 +66,6 @@ export default class RoomClient {
     }
 
     send(data) {
-
         if (this.websocket.readyState === 1) {
             this.websocket.send(data);
         }

@@ -3,8 +3,8 @@ import Recorder from './Recorder';
 
 export default class AppClient {
     constructor(){
+        this.roomClient = new RoomClient('ws://18.217.104.101:3001');
         this.recorder = new Recorder();
-        this.roomClient = new RoomClient('ws://18.217.104.101:3000');
 
         this.roomClient.onData = function(e){
             console.log(e.id);
