@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ReactMic } from '@cleandersonlobo/react-mic';
 import '../../styles/styles.scss';
-import RoomClient from '../../shared/RoomClient';
+// import RoomClient from '../../shared/RoomClient';
 
-const roomClient = new RoomClient('ws://18.217.104.101:3000');
+// const roomClient = new RoomClient('ws://18.217.104.101:3000');
 
 var recording = false;
 
@@ -50,7 +50,9 @@ function StartRecording(props) {
         // console.log(e.inputBuffer.getChannelData(0));
         // console.log("hello");
         // console.log(e);
-        roomClient.sendVideo(e.inputBuffer.getChannelData(0));
+
+
+        // roomClient.sendVideo(e.inputBuffer.getChannelData(0));
       }
     };
   };
