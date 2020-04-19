@@ -38,7 +38,7 @@ function Header(props) {
             <select className="select-bg" onChange = {handleChange}>
                 <option value ="Dark">Dark</option>
                 <option value ="White">White</option>
-                <option value="Green">Green</option>
+                {/* <option value="Green">Green</option> */}
             </select>
             {leaveButton}
             </div>
