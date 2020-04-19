@@ -34,7 +34,7 @@ function Controller(){
     return(
         <React.Fragment>
             <Header setPage={setPage} leaveButton={leaveButton}/>
-            <div className="content">
+            <div className="content" style = { { backgroundImage : "url(" + require("./bg.png") + ")" } }>
                 {currPage}
             </div>
         </React.Fragment>
