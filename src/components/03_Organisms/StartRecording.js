@@ -14,16 +14,24 @@ function StartRecording(props) {
   const toggleRecording = () => {
     if (!record){
       document.getElementById("button-1").disabled = true;
+      if (document.body.style.backgroundColor === 'white')
+        document.getElementById("progressBar").style.backgroundColor = 'red';
+      else if (document.body.style.backgroundColor === 'black')
+      document.getElementById("progressBar").style.backgroundColor = 'white';
       var timeleft = 3;
+      var progressBarUnit = 33.3;
       var downloadTimer = setInterval(function(){
         if(timeleft <= 0){
           document.getElementById("button-1").disabled = false;
           recording = true;
           clearInterval(downloadTimer);
+          document.getElementById("progressBar").style.display = "none";
           setRecord(!record)
           document.getElementById("countdown").innerHTML = "";
         } else {
+          var progressBar = document.getElementById("progressBar");
           document.getElementById("countdown").innerHTML = timeleft;
+          progressBar.style.width = (4 - timeleft) * progressBarUnit + '%';
         }
         timeleft -= 1;
       }, 1000);
@@ -93,7 +101,9 @@ function StartRecording(props) {
         <div className="flexRow justifyContentCenter">
           <button onClick={toggleRecording} type="button" id="button-1" className={record ? "button--red" : "button--green"}>{buttonMessage}</button>
         </div>
-        <div id="countdown"></div>
+
+        <div id="progressBar" style = { { width: "0%"} }></div>
+        <div id="countdown" style = { { fontSize: '80px', fontWeight: 'bold'} }></div>
       </div>
   )
 }
