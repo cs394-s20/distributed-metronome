@@ -106,10 +106,10 @@ export default class Recorder {
             type: 'audio/wav'
         }));
 
-        // const name = prompt('Please enter a name for the recording!'); // prompts you to name the file
-        // element.download = name;
+        const name = prompt('Please enter a name for the recording!'); // prompts you to name the file
+        element.download = name;
 
-        element.download = "recording.wav";
+        // element.download = "recording.wav";
         element.style.display = 'none';
         document.body.appendChild(element);
         element.click();
