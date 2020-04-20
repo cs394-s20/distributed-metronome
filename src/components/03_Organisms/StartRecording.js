@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
 import { ReactMic } from '@cleandersonlobo/react-mic';
 import '../../styles/styles.scss';
-// import RoomClient from '../../shared/RoomClient';
 
-// const roomClient = new RoomClient('ws://18.217.104.101:3000');
 
-var recording = false;
+var recording = false; // for sending to backend
 
 function StartRecording(props) {
-  const [record, setRecord] = useState(false);
+  const [record, setRecord] = useState(false); // record = if it's recording or not
 
-
+  // function called when you press "start recording" or "stop recording"
   const toggleRecording = () => {
-    if (!record){
+    if (!record) {
       document.getElementById("button-1").disabled = true;
       if (document.body.style.backgroundColor === 'white')
         document.getElementById("progressBar").style.backgroundColor = 'red';
       else if (document.body.style.backgroundColor === 'black')
       document.getElementById("progressBar").style.backgroundColor = 'white';
       var timeleft = 3;
+
       var progressBarUnit = 33.3;
       var downloadTimer = setInterval(function(){
         if(timeleft <= 0){
@@ -28,6 +27,8 @@ function StartRecording(props) {
           document.getElementById("progressBar").style.display = "none";
           setRecord(!record)
           document.getElementById("countdown").innerHTML = "";
+          
+        // when timer is still going
         } else {
           var progressBar = document.getElementById("progressBar");
           document.getElementById("countdown").innerHTML = timeleft;
@@ -36,11 +37,10 @@ function StartRecording(props) {
         timeleft -= 1;
       }, 1000);
     }
-    else{
+    else {
       recording = false;
       setRecord(!record)
     }
-
   }
 
 
@@ -71,13 +71,15 @@ function StartRecording(props) {
     // console.log('chunk of real-time data is: ', recordedBlob);
   }
 
+  // function that's called when you stop recording
   const onStop = (recordedBlob) => {
     // console.log('recordedBlob is: ', recordedBlob);
     // console.log("Blah: ", recordedBlob["blobURL"]);
 
+    const name = prompt('Please enter a name for the recording!'); // prompts you to name the file
     const link = document.createElement('a');
     link.href = recordedBlob["blobURL"];
-    link.download = "recording"
+    link.download = name;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -105,6 +107,8 @@ function StartRecording(props) {
         <div id="progressBar" style = { { width: "0%"} }></div>
         <div id="countdown" style = { { fontSize: '80px', fontWeight: 'bold'} }></div>
       </div>
+      <div id="countdown"></div>
+    </div>
   )
 }
 export default StartRecording;
