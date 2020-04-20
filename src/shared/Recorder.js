@@ -86,9 +86,8 @@ export default class Recorder {
         }
     }
 
-    async saveRecording(){
-
-        const name = prompt('Please enter a name for the recording!'); // prompts you to name the file
+    // async saveRecording(){
+    saveRecording(){
 
 
         var myArrayBuffer = this.context.createBuffer(2, this.chunks[0].length, 48000);
@@ -106,15 +105,14 @@ export default class Recorder {
         element.href = URL.createObjectURL(new Blob([new DataView(audioBufferToWav(myArrayBuffer))], {
             type: 'audio/wav'
         }));
-        // element.download = "recording.wav";
-        element.download = name;
 
-      
+        // const name = prompt('Please enter a name for the recording!'); // prompts you to name the file
+        // element.download = name;
+
+        element.download = "recording.wav";
         element.style.display = 'none';
         document.body.appendChild(element);
-      
         element.click();
-      
         document.body.removeChild(element);
     }
 
