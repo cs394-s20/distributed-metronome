@@ -17,6 +17,10 @@ button{
     }
     &--orange{
         background-color: $orange;
+        height: 50px;
+        width: 140px;
+        font-size: 16px;
+        font-weight: bold;
     }
     &--blue{
         background-color: $blue;

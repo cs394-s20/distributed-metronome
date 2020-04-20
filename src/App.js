@@ -7,12 +7,13 @@ function App() {
   const appClient = new AppClient();
   return (
     <div className="App">
-      <div className="header">
+      {/* <div className="header">
         <h1>Metronome</h1>
       </div>
       <div className="content">
         <Controller appClient={appClient}/>
-      </div>
+      </div> */}
+      <Controller appClient={appClient}/>
     </div>
   );
 }
