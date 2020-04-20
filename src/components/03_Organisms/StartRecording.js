@@ -89,6 +89,7 @@ function StartRecording(props) {
 
   var buttonMessage = record ? "Stop Recording" : "Start Recording"
       return (
+        <React.Fragment>
       <div>
         <div className="flexRow justifyContentCenter">
           <ReactMic
@@ -108,7 +109,7 @@ function StartRecording(props) {
         <div id="countdown" style = { { fontSize: '80px', fontWeight: 'bold'} }></div>
       </div>
       <div id="countdown"></div>
-    </div>
+        </React.Fragment>
   )
 }
 export default StartRecording;
