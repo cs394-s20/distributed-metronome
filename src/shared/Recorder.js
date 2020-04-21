@@ -46,6 +46,9 @@ export default class Recorder {
     };
 
     startRecording = function () {
+        this.chunks = [[], []];
+        this.chunks_recorded = 0;
+        this.chunks_returned = 0;
         this.record = true;
     }
 

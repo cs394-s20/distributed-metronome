@@ -1,12 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../styles/styles.scss';
 
 function Header(props) {
     let leaveButton;
+    let roomCount;
 
     if (props.leaveButton){
          leaveButton = (<button className="button--orange" onClick={() => props.setPage('home')}>Leave Session</button>);
         //leaveButton = (<button className="button--orange" onClick={() => window.location.reload(false)}>Leave Session</button>);
+    }
+    if (props.appClient.roomClient.roomCode){
+        var roomClient = props.appClient.roomClient;
+        function UserCount(){
+            let [count, setCount] = useState(1);
+            roomClient.onListUsers = function(data){
+                setCount(data.count)
+            }.bind(setCount);
+            return (
+                <div id="user_count">
+                    Users: {count}
+                </div>
+            )
+        }
+        UserCount = UserCount.bind(roomClient);
+        roomCount = UserCount();
     }
 
     const handleChange = (event) => {
@@ -41,6 +58,7 @@ function Header(props) {
                 {/* <option value="Green">Green</option> */}
             </select>
             {leaveButton}
+            {roomCount}
             </div>
         </div>
     )
