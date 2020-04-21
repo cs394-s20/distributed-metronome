@@ -14,7 +14,7 @@ function JoinSession(props) {
     return (
         <form>
             <div className="flexRow alignItemsCenter">
-                <p>Session Code:</p>
+                <p className={(props.mode == "dark") ? "textDarkMode" : "textWhiteMode"}>Session Code:</p>
                 <input id="input-text" type="text" />
             </div>
             <div className="flexRow justifyContentCenter">

@@ -1,0 +1,19 @@
+.header{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px;
+
+    &__roomInfo{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-right: 20px;
+        font-size: 18px;
+    }
+}
+
+.roomCode{
+    font-weight: bold;
+}
