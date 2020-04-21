@@ -61,7 +61,7 @@ function Controller(props){
 
     return(
         <React.Fragment>
-            <Header setPage={setPage} leaveButton={leaveButton}/>
+            <Header setPage={setPage} leaveButton={leaveButton} appClient={props.appClient}/>
             <div className="content" style = { { backgroundImage : "url(" + require("./bg.png") + ")" } }>
                 {currPage}
             </div>

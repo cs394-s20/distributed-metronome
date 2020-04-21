@@ -45,6 +45,8 @@ async def hello(websocket, path):
 
             elif data_loaded["type"] == "stop_metronome":
                 asyncio.create_task(send_all(json.dumps(data_loaded)))
+                for user in room.users:
+                    room.user_data[user] = {}
 
             elif data_loaded["type"] == "create_room":
                 code = Room.generate_code()
@@ -61,6 +63,7 @@ async def hello(websocket, path):
                 if code in STATE['rooms']:
                     room = STATE['rooms'][code]
                     room.users.append(websocket)
+                    asyncio.create_task(list_users(room))
                     room.user_data[websocket] = {}
                     asyncio.create_task(send_message(websocket, json.dumps(data_loaded)))
                     
@@ -74,11 +77,23 @@ async def hello(websocket, path):
         print(e)
     if room is not None:
         room.users.remove(websocket)
+        asyncio.create_task(list_users(room))
         if len(room.users) == 0:
             del STATE['rooms'][code]
     STATE['connections'].remove(websocket)
     
+def num_users(room):
+    return json.dumps({
+        "type": "list_users",
+        "data": {
+            'count': len(room.users)
+        }
+    })
 
+async def list_users(room):
+    message = num_users(room)
+    for user in room.users:
+        asyncio.create_task(send_message(user, message))
 
 
 async def delay_combine_send(chunk_id, room, original_data):
@@ -115,6 +130,6 @@ async def send_message(websocket, message):
     await websocket.send(message)
     
 
-start_server = websockets.serve(hello, "0.0.0.0", port)
+start_server = websockets.serve(hello, "localhost", port)
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()

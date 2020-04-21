@@ -9,6 +9,7 @@ export default class RoomClient {
         this.onData = this.doNothing;
         this.onCreateRoom = this.doNothing;
         this.onJoinRoom = this.doNothing;
+        this.onListUsers = this.doNothing
 
         this.connect = this.connect.bind(this);
         this.attachProcessors = this.attachProcessors.bind(this);
@@ -59,6 +60,10 @@ export default class RoomClient {
                 break;
             case "join_room":
                 this.onJoinRoom(data.data);
+                break;
+            case "list_users":
+            console.log(data.data)
+                this.onListUsers(data.data)
                 break;
             default:
                 console.log("unknown data received");;
