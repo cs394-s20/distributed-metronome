@@ -12,3 +12,12 @@ p{
     color: white;
     font-size: 36px;
 }
+
+.text{
+    &DarkMode{
+        color: white;
+    }
+    &WhiteMode{
+        color: black;
+    }
+}
