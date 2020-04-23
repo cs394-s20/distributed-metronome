@@ -11,6 +11,7 @@ export default class Recorder {
         this.startRecording = this.startRecording.bind(this);
         this.stopRecording = this.stopRecording.bind(this);
         this.playBuffer = this.playBuffer.bind(this);
+        this.playBackBuffer.bind(this);
         this.saveRecording = this.saveRecording.bind(this);
         this.saveChunk.bind(this);
         this.context = null;
@@ -65,20 +66,24 @@ export default class Recorder {
 
         }
 
-        // var test = this.context.createBufferSource();
-
-        // // set the buffer in the AudioBufferSourceNode
-        // test.buffer = myArrayBuffer;
-
-        // // connect the AudioBufferSourceNode to the
-        // // destination so we can hear the sound
-        // test.connect(this.context.destination);
-
-        // // start the source playing
-        // test.start();
+        // this.playBackBuffer(myArrayBuffer);
 
         this.saveChunk(buffer);
 
+    }
+
+    playBackBuffer(myArrayBuffer) {
+        var test = this.context.createBufferSource();
+
+        // set the buffer in the AudioBufferSourceNode
+        test.buffer = myArrayBuffer;
+
+        // connect the AudioBufferSourceNode to the
+        // destination so we can hear the sound
+        test.connect(this.context.destination);
+
+        // start the source playing
+        test.start();
 
     }
 
@@ -105,7 +110,7 @@ export default class Recorder {
             console.log(myArrayBuffer);
             console.log(audioBufferToWav(myArrayBuffer));
 
-
+        
             var element = document.createElement('a');
             element.href = URL.createObjectURL(new Blob([new DataView(audioBufferToWav(myArrayBuffer))], {
                 type: 'audio/wav'
@@ -119,6 +124,20 @@ export default class Recorder {
             document.body.appendChild(element);
             element.click();
             document.body.removeChild(element);
+
+            // --------- THE PLAYBACK PORTION ---------
+            var test = this.context.createBufferSource();
+
+            // set the buffer in the AudioBufferSourceNode
+            test.buffer = myArrayBuffer;
+
+            // connect the AudioBufferSourceNode to the
+            // destination so we can hear the sound
+            test.connect(this.context.destination);
+
+            // start the source playing
+            test.start();
+            // ----------------------------------------
         }
     }
 
