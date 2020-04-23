@@ -97,48 +97,45 @@ export default class Recorder {
     // async saveRecording(){
     saveRecording() {
 
-        if (this.chunks[0].length != 0) {
 
+        var myArrayBuffer = this.context.createBuffer(2, this.chunks[0].length, 48000);
 
-            var myArrayBuffer = this.context.createBuffer(2, this.chunks[0].length, 48000);
+        for (var channel = 0; channel < myArrayBuffer.numberOfChannels; channel++) {
 
-            for (var channel = 0; channel < myArrayBuffer.numberOfChannels; channel++) {
+            myArrayBuffer.copyToChannel(Float32Array.from(this.chunks[channel]), channel);
 
-                myArrayBuffer.copyToChannel(Float32Array.from(this.chunks[channel]), channel);
-
-            }
-            console.log(myArrayBuffer);
-            console.log(audioBufferToWav(myArrayBuffer));
-
-        
-            var element = document.createElement('a');
-            element.href = URL.createObjectURL(new Blob([new DataView(audioBufferToWav(myArrayBuffer))], {
-                type: 'audio/wav'
-            }));
-
-            const name = prompt('Please enter a name for the recording!'); // prompts you to name the file
-            element.download = name;
-
-            // element.download = "recording.wav";
-            element.style.display = 'none';
-            document.body.appendChild(element);
-            element.click();
-            document.body.removeChild(element);
-
-            // --------- THE PLAYBACK PORTION ---------
-            var test = this.context.createBufferSource();
-
-            // set the buffer in the AudioBufferSourceNode
-            test.buffer = myArrayBuffer;
-
-            // connect the AudioBufferSourceNode to the
-            // destination so we can hear the sound
-            test.connect(this.context.destination);
-
-            // start the source playing
-            test.start();
-            // ----------------------------------------
         }
+        console.log(myArrayBuffer);
+        console.log(audioBufferToWav(myArrayBuffer));
+
+
+        var element = document.createElement('a');
+        element.href = URL.createObjectURL(new Blob([new DataView(audioBufferToWav(myArrayBuffer))], {
+            type: 'audio/wav'
+        }));
+
+        const name = prompt('Please enter a name for the recording!'); // prompts you to name the file
+        element.download = name;
+
+        // element.download = "recording.wav";
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+
+        // --------- THE PLAYBACK PORTION ---------
+        var test = this.context.createBufferSource();
+
+        // set the buffer in the AudioBufferSourceNode
+        test.buffer = myArrayBuffer;
+
+        // connect the AudioBufferSourceNode to the
+        // destination so we can hear the sound
+        test.connect(this.context.destination);
+
+        // start the source playing
+        test.start();
+        // ----------------------------------------
     }
 
 }
