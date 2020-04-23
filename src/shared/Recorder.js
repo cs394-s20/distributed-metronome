@@ -11,7 +11,6 @@ export default class Recorder {
         this.startRecording = this.startRecording.bind(this);
         this.stopRecording = this.stopRecording.bind(this);
         this.playBuffer = this.playBuffer.bind(this);
-        this.playBackBuffer.bind(this);
         this.saveRecording = this.saveRecording.bind(this);
         this.saveChunk.bind(this);
         this.context = null;
@@ -66,24 +65,8 @@ export default class Recorder {
 
         }
 
-        // this.playBackBuffer(myArrayBuffer);
 
         this.saveChunk(buffer);
-
-    }
-
-    playBackBuffer(myArrayBuffer) {
-        var test = this.context.createBufferSource();
-
-        // set the buffer in the AudioBufferSourceNode
-        test.buffer = myArrayBuffer;
-
-        // connect the AudioBufferSourceNode to the
-        // destination so we can hear the sound
-        test.connect(this.context.destination);
-
-        // start the source playing
-        test.start();
 
     }
 
