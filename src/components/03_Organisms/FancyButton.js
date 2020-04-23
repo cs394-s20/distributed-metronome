@@ -43,7 +43,7 @@ function FancyButton(props) {
             setStartCount(true);
         }
         else if (!startCount & props.record) {
-
+            
             recorder.stopRecording();
 
         }
