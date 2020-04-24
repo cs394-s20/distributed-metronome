@@ -4,6 +4,7 @@ import '../../styles/styles.scss';
 import RoomClient from '../../shared/RoomClient';
 import FancyButton from './FancyButton';
 import metronome from '../../animation.gif';
+import TogglePlayBack from './TogglePlayBack';
 
 var recording = false;
 
@@ -22,6 +23,7 @@ function StartRecording(props) {
       </div>
       <div className="flexRow justifyContentCenter">
         <FancyButton setRecord={setRecord} record={record} appClient={props.appClient} setAnimationVisible={setAnimationVisible} page={props.page}/>
+        <TogglePlayBack setRecord={setRecord} record={record} appClient={props.appClient}></TogglePlayBack>
       </div>
     </div>
   )
