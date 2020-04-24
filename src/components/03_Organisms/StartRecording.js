@@ -15,14 +15,14 @@ function StartRecording(props) {
   return (
     <div>
       <div className="flexRow justifyContentCenter">
-        <ReactMic
+        {/* <ReactMic
           record={record}
           className="sound-wave"
           
           strokeColor="white"
           backgroundColor="black"
           mimeType="audio/mp3"
-          id='react-mic' />
+          id='react-mic' /> */}
       </div>
       <div className="flexRow justifyContentCenter">
         <FancyButton setRecord={setRecord} record={record} appClient={props.appClient}></FancyButton>
