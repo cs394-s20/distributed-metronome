@@ -21,7 +21,7 @@ function StartRecording(props) {
         {animationVisible ? animation : ""}
       </div>
       <div className="flexRow justifyContentCenter">
-        <FancyButton setRecord={setRecord} record={record} appClient={props.appClient} setAnimationVisible={setAnimationVisible}/>
+        <FancyButton setRecord={setRecord} record={record} appClient={props.appClient} setAnimationVisible={setAnimationVisible} page={props.page}/>
       </div>
     </div>
   )

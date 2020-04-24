@@ -3,6 +3,11 @@ import React, { useState } from 'react';
 import Countdown from 'react-countdown-now';
 
 function FancyButton(props) {
+    const [startCount, setStartCount] = useState(false);
+    const [downloadDisabled, setDownloadDisabled] = useState(true);
+    const [downloadVisible, setDownloadVisible] = useState(false);
+let downloadButton = downloadVisible ? <button onClick={() => recorder.saveRecording()} disabled = {downloadDisabled} className={downloadDisabled ? null : "button--purple"} >{downloadDisabled ? 'Please wait...' : 'Download!'}</button> : "";
+
     const roomClient = props.appClient.roomClient;
     const recorder = props.appClient.recorder;
     const makeToggleRequest = () => {
@@ -15,6 +20,7 @@ function FancyButton(props) {
             // we have to wait for all the chunks to come back from the server before we can download
             // right now we will use a default 4 seconds wait, but this should change
             window.setTimeout(() => setDownloadDisabled(false), 4000);
+            setDownloadVisible(true);
 
         }
         else {
@@ -22,8 +28,7 @@ function FancyButton(props) {
             roomClient.startMetronome();
         }
     }
-    const [startCount, setStartCount] = useState(false);
-    const [downloadDisabled, setDownloadDisabled] = useState(true);
+
 
     const renderer = ({ seconds, completed }) => {
         if (completed) {
@@ -69,8 +74,7 @@ function FancyButton(props) {
     return (
         <div>
             <button id="fancy-button" onClick={makeToggleRequest} type="button" className={startCount ? "button--yellow" : props.record ? "button--red" : "button--green"}>{buttonMessage}</button>
-
-            <button onClick={() => recorder.saveRecording()} disabled = {downloadDisabled} className={downloadDisabled ? null : "button--purple"} >Download!</button>
+            {downloadButton}
         </div>
     )
 }

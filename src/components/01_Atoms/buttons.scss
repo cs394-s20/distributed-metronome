@@ -6,6 +6,9 @@ button{
     color: white;
     border: none;
     margin: 10px;
+    &:disabled{
+        background-color: darkgray;
+    }
 }
 
 .button{
