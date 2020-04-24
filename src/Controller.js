@@ -14,6 +14,7 @@ function Controller(props){
     let leaveButton;
     let roomCode;
     let roomCount;
+    let notAlerted;
 
     if (page === 'home'){
         leaveButton = false;
@@ -30,10 +31,13 @@ function Controller(props){
     }
 
     if (page === 'startRecording'){
+        console.log('ksjd');
+        notAlerted = false;
         leaveButton = true;
         roomCode = true;
         roomCount = true;
         currPage = <StartRecording setPage={setPage} appClient={props.appClient}/>
+        alert('Wear headphones to prevent uploaded tracks from being recorded');
     }
 
     if (page === 'confirmation'){
@@ -50,7 +54,6 @@ function Controller(props){
                 {currPage}
                 <Footer setMode={setMode}/>
             </div>
-            
         </React.Fragment>
     )
 }
