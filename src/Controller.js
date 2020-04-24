@@ -29,7 +29,7 @@ function Controller(props){
     if (page === 'startRecording'){
         leaveButton = true;
         roomCode = true;
-        currPage = <StartRecording setPage={setPage} appClient={props.appClient}/>
+        currPage = <StartRecording setPage={setPage} appClient={props.appClient} page={page}/>
     }
 
     if (page === 'confirmation'){
