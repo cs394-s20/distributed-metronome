@@ -83,6 +83,9 @@ export default class Recorder {
         // start the source playing
         
         if (this.playback)
+            var test = this.context.createBufferSource();
+            test.buffer = myArrayBuffer;
+            test.connect(this.context.destination);
             test.start();
 
         this.saveChunk(buffer);
