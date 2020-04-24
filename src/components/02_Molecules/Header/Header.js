@@ -7,7 +7,7 @@ function Header(props) {
     let roomCount;
 
     if (props.leaveButton){
-         leaveButton = (<button className="button--orange" onClick={() => props.setPage('home')}>Leave Session</button>);
+         leaveButton = (<button className="button--orange" onClick={() => {props.setPage('home'); props.appClient.recorder.stopPlayBack();}}>Leave Session</button>);
     }
 
     if (props.roomCode){
