@@ -7,6 +7,7 @@ function FancyButton(props) {
     const recorder = props.appClient.recorder;
     const makeToggleRequest = () => {
         if (props.record) {
+            props.setAnimationVisible(false);
             roomClient.stopMetronome();
             document.getElementById("fancy-button").style.display = "none";
 
@@ -27,6 +28,7 @@ function FancyButton(props) {
     const renderer = ({ seconds, completed }) => {
         if (completed) {
             props.setRecord(true);
+            props.setAnimationVisible(true);
             recorder.startRecording();
             setStartCount(false);
             // Render a complete state
