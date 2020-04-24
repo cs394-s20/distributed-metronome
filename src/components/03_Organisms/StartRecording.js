@@ -3,6 +3,7 @@ import { ReactMic } from '@cleandersonlobo/react-mic';
 import '../../styles/styles.scss';
 import RoomClient from '../../shared/RoomClient';
 import FancyButton from './FancyButton';
+import TogglePlayBack from './TogglePlayBack';
 
 var recording = false;
 
@@ -11,6 +12,7 @@ function StartRecording(props) {
   const recorder = props.appClient.recorder;
 
   const [record, setRecord] = useState(false);
+  // const [playback, setPlayBack] = useState(true);
 
   return (
     <div>
@@ -26,6 +28,7 @@ function StartRecording(props) {
       </div>
       <div className="flexRow justifyContentCenter">
         <FancyButton setRecord={setRecord} record={record} appClient={props.appClient}></FancyButton>
+        <TogglePlayBack setRecord={setRecord} record={record} appClient={props.appClient}></TogglePlayBack>
       </div>
     </div>
   )
