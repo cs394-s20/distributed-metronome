@@ -23,7 +23,7 @@ export default class Recorder {
 
 
         this.record = false;
-        this.playback = true;
+        this.playback = false;
         this.processor = processor
         navigator.mediaDevices.getUserMedia({ audio: true, video: false })
             .then(this.handleSuccess);
@@ -62,12 +62,12 @@ export default class Recorder {
 
     startPlayBack = function () {
         this.playback = true;
-        console.log("true");
+        //console.log("true");
     }
 
     stopPlayBack = function () {
         this.playback = false;
-        console.log("false");
+        //console.log("false");
     }
 
     playBuffer(buffer) {
@@ -81,13 +81,11 @@ export default class Recorder {
 
 
         // start the source playing
-
+        var test = this.context.createBufferSource();
+        test.buffer = myArrayBuffer;
+        test.connect(this.context.destination);
         if (this.playback) {
-            var test = this.context.createBufferSource();
-            test.buffer = myArrayBuffer;
-            test.connect(this.context.destination);
             test.start();
-
         }
 
         this.saveChunk(buffer);
