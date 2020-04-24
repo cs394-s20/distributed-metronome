@@ -81,12 +81,14 @@ export default class Recorder {
 
 
         // start the source playing
-        
-        if (this.playback)
+
+        if (this.playback) {
             var test = this.context.createBufferSource();
             test.buffer = myArrayBuffer;
             test.connect(this.context.destination);
             test.start();
+
+        }
 
         this.saveChunk(buffer);
 
@@ -128,19 +130,26 @@ export default class Recorder {
         element.click();
         document.body.removeChild(element);
 
-        // --------- THE PLAYBACK PORTION ---------
-        var test = this.context.createBufferSource();
+        // // --------- THE PLAYBACK PORTION ---------
+        // var test = this.context.createBufferSource();
 
-        // set the buffer in the AudioBufferSourceNode
-        test.buffer = myArrayBuffer;
+        // // set the buffer in the AudioBufferSourceNode
+        // test.buffer = myArrayBuffer;
 
-        // connect the AudioBufferSourceNode to the
-        // destination so we can hear the sound
-        test.connect(this.context.destination);
+        // // connect the AudioBufferSourceNode to the
+        // // destination so we can hear the sound
+        // test.connect(this.context.destination);
 
-        // start the source playing
-        test.start();
-        // ----------------------------------------
+        // // start the source playing
+        // test.start();
+        // // ----------------------------------------
+
+        // if (this.playback) {
+        //     var test = this.context.createBufferSource();
+        //     test.buffer = myArrayBuffer;
+        //     test.connect(this.context.destination);
+        //     test.start();
+        // }
     }
 
 }
