@@ -3,7 +3,8 @@ import { ReactMic } from '@cleandersonlobo/react-mic';
 import '../../styles/styles.scss';
 import RoomClient from '../../shared/RoomClient';
 import FancyButton from './FancyButton';
-import metronome from '../../animation.gif';
+import metronome from '../../animations/animation.gif';
+import musicnote from '../../animations/animation2.gif';
 import TogglePlayBack from './TogglePlayBack';
 
 var recording = false;
@@ -14,8 +15,18 @@ function StartRecording(props) {
 
   const [record, setRecord] = useState(false);
   const [animationVisible, setAnimationVisible] = useState(false);
+  const [whichAnimation, setWhichAnimation] = useState('metronome')
 
-  let animation = <img className="animation" src={metronome} alt="Recording..." />
+  const toggleAnimation = () => {
+    if (whichAnimation == 'metronome'){
+      setWhichAnimation('musicnote')
+    }
+    else{
+      setWhichAnimation('metronome')
+    }
+}
+
+  let animation = <img className="animation" src={(whichAnimation == 'metronome') ? metronome : musicnote} alt="Recording..." onClick={() => toggleAnimation()}/>
   return (
     <div>
       <div className="flexRow justifyContentCenter">
