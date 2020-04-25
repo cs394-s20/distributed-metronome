@@ -36,7 +36,6 @@ function Controller(props){
         roomCode = true;
         currPage = <StartRecording setPage={setPage} appClient={props.appClient} page={page}/>
         roomCount = true;
-        alert('Wear headphones to prevent uploaded tracks from being recorded');
     }
 
     if (page === 'confirmation'){
