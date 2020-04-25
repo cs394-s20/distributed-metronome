@@ -14,7 +14,8 @@ function Header(props) {
         roomCode = (<span className="roomCode">Room Code: {props.appClient.roomClient.roomCode}</span>);
     }
 
-    if (props.appClient.roomClient.roomCode){
+
+    if (props.roomCount){
         var roomClient = props.appClient.roomClient;
         function UserCount(){
             let [count, setCount] = useState(1);
