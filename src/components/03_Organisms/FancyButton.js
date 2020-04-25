@@ -4,6 +4,7 @@ import Countdown from 'react-countdown-now';
 import TogglePlayBack from './TogglePlayBack';
 
 
+
 function FancyButton(props) {
     const [startCount, setStartCount] = useState(false);
     const [downloadDisabled, setDownloadDisabled] = useState(true);
@@ -44,7 +45,9 @@ function FancyButton(props) {
             return <span>{seconds}</span>;
         }
     };
+    const uploadClickTrack = () => {
 
+    }
     const toggleRecording = () => {
 
         if (!startCount & !props.record) {
@@ -78,6 +81,7 @@ function FancyButton(props) {
             <div id="toggle-playback">
                 <TogglePlayBack appClient={props.appClient}></TogglePlayBack>
             </div>
+            <button type="button" onClick={uploadClickTrack} className={"button--yellow"}>upload click track</button>
 
         </div>
     )
