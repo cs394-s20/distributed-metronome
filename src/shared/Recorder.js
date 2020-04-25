@@ -63,6 +63,8 @@ export default class Recorder {
 
     stopRecording = function () {
         this.record = false;
+        this.source.disconnect();
+
     }
 
 

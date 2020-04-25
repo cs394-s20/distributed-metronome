@@ -4,7 +4,6 @@ import RoomClient from '../../shared/RoomClient';
 import FancyButton from './FancyButton';
 import metronome from '../../animations/animation.gif';
 import musicnote from '../../animations/animation2.gif';
-import TogglePlayBack from './TogglePlayBack';
 
 
 function StartRecording(props) {
@@ -26,7 +25,7 @@ function StartRecording(props) {
   };
 
   useEffect(() => {
-    alert('Wear headphones to prevent uploaded tracks from being recorded');
+    alert('Wear headphones to prevent any playback from being recorded.');
   }, []);
 
   let animation = <img className="animation" src={(whichAnimation == 'metronome') ? metronome : musicnote} alt="Recording..." onClick={() => toggleAnimation()} />
@@ -35,9 +34,8 @@ function StartRecording(props) {
       <div className="flexRow justifyContentCenter">
         {animationVisible ? animation : ""}
       </div>
-      <div className="flexRow justifyContentCenter">
+      <div className="flexColumn justifyContentCenter">
         <FancyButton setRecord={setRecord} record={record} appClient={props.appClient} setAnimationVisible={setAnimationVisible} page={props.page} />
-        <TogglePlayBack setRecord={setRecord} record={record} appClient={props.appClient}></TogglePlayBack>
       </div>
     </div>
   )
