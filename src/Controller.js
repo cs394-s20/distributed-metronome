@@ -31,7 +31,6 @@ function Controller(props){
     }
 
     if (page === 'startRecording'){
-        console.log('ksjd');
         notAlerted = false;
         leaveButton = true;
         roomCode = true;
