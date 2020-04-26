@@ -42,6 +42,7 @@ async def hello(websocket, path):
                 start_time = datetime.datetime.utcnow().timestamp() + 5
                 data_loaded = {"type": "start_metronome", "data":{"ts":  start_time}}
                 asyncio.create_task(send_all(json.dumps(data_loaded)))
+                room.start_stream()
                 
 
             elif data_loaded["type"] == "stop_metronome":
@@ -120,6 +121,6 @@ async def send_message(websocket, message):
     await websocket.send(message)
     
 
-start_server = websockets.serve(hello, "localhost", port)
+start_server = websockets.serve(hello, "0.0.0.0", port)
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
