@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../../styles/styles.scss';
 import Countdown from 'react-countdown-now';
 import TogglePlayBack from './TogglePlayBack';
+import ClickTrack from './ClickTrack';
 
 
 
@@ -81,7 +82,9 @@ function FancyButton(props) {
             <div id="toggle-playback">
                 <TogglePlayBack appClient={props.appClient}></TogglePlayBack>
             </div>
-            <button type="button" onClick={uploadClickTrack} className={"button--yellow"}>upload click track</button>
+            <div id="clicktrack">
+                <ClickTrack appClient={props.appClient}></ClickTrack>
+            </div>
 
         </div>
     )
