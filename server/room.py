@@ -45,7 +45,7 @@ class Room:
                 #self.combined_data[chunk_id][ch][j] = max(-1.0, min(1.0, self.combined_data[chunk_id][ch][j]))
                 
     def start_stream(self):
-        command = 'ffmpeg -f f32be -ac 2 -ar 48000 -i ' + self.audio_channel_paths[0] + ' -stream_loop -1 -r 15 -i test.png -preset ultrafast -s 1280x720 -codec:v libx264 -codec:a aac -ar 48000 -pix_fmt yuv420p -crf 23 -f flv rtmp://live-ord02.twitch.tv/app/live_206561454_WB6SYeSn330x8TgYEtodTJc1tDtSRM'
+        command = 'ffmpeg -f f32be -ac 2 -ar 48000 -i ' + self.audio_channel_paths[0] + ' -stream_loop -1 -r 5 -i test.png -preset veryfast -s 720x480 -codec:v libx264 -codec:a aac -ar 48000 -pix_fmt yuv420p -crf 40 -f flv rtmp://live-ord02.twitch.tv/app/live_206561454_WB6SYeSn330x8TgYEtodTJc1tDtSRM'
         print(command)
         self.ffmpeg_thread = subprocess.Popen(command.split(' '))
         self.stream_started = True

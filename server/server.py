@@ -109,7 +109,7 @@ async def delay_combine_send(chunk_id, room, original_data):
 
     original_data["data"]["channels"] = room.combined_data[chunk_id]
     for w in room.users:
-        if w.open is True:
+        if False:
             asyncio.create_task(send_message(w, json.dumps(original_data)))
 
 async def send_all(message):
