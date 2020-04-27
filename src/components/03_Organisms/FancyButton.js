@@ -10,7 +10,6 @@ function FancyButton(props) {
     const [startCount, setStartCount] = useState(false);
     const [downloadDisabled, setDownloadDisabled] = useState(true);
     const [downloadVisible, setDownloadVisible] = useState(false);
-    const [clickTrack, setClickTrack] = useState(false)
     let downloadButton = downloadVisible ? <button onClick={() => recorder.saveRecording()} disabled={downloadDisabled} className={downloadDisabled ? null : "button--purple"} >{downloadDisabled ? 'Please wait...' : 'Download!'}</button> : "";
 
     const roomClient = props.appClient.roomClient;
@@ -21,6 +20,7 @@ function FancyButton(props) {
             roomClient.stopMetronome();
             document.getElementById("fancy-button").style.display = "none";
             document.getElementById("toggle-playback").style.display = "none";
+            document.getElementById("click-track").style.display = "none";
             // we have to wait for all the chunks to come back from the server before we can download
             // right now we will use a default 4 seconds wait, but this should change
             window.setTimeout(() => setDownloadDisabled(false), 4000);
@@ -84,7 +84,7 @@ function FancyButton(props) {
             <div id="toggle-playback">
                 <TogglePlayBack appClient={props.appClient}></TogglePlayBack>
             </div>
-            <div id="clicktrack">
+            <div id="click-track">
                 <ClickTrack appClient={props.appClient}></ClickTrack>
             </div>
 
