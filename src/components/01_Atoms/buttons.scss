@@ -39,6 +39,11 @@ button{
         height: 75px !important;
         width: 150px !important;
     }
+    &--orange-long{
+        background-color:$orange;
+        height:50px;
+        font-size:16px;
+    }
 }
 
 input[type=button],input[type=submit]{
