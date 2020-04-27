@@ -10,6 +10,7 @@ function FancyButton(props) {
     const [startCount, setStartCount] = useState(false);
     const [downloadDisabled, setDownloadDisabled] = useState(true);
     const [downloadVisible, setDownloadVisible] = useState(false);
+    const [clickTrack, setClickTrack] = useState(false)
     let downloadButton = downloadVisible ? <button onClick={() => recorder.saveRecording()} disabled={downloadDisabled} className={downloadDisabled ? null : "button--purple"} >{downloadDisabled ? 'Please wait...' : 'Download!'}</button> : "";
 
     const roomClient = props.appClient.roomClient;
@@ -46,9 +47,6 @@ function FancyButton(props) {
             return <span>{seconds}</span>;
         }
     };
-    const uploadClickTrack = () => {
-
-    }
     const toggleRecording = () => {
 
         if (!startCount & !props.record) {
@@ -58,6 +56,10 @@ function FancyButton(props) {
             recorder.stopRecording();
 
         }
+
+    }
+
+    const onFileChange = () => {
 
     }
 
