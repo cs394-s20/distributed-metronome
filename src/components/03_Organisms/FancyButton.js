@@ -14,6 +14,7 @@ function FancyButton(props) {
 
     const roomClient = props.appClient.roomClient;
     const recorder = props.appClient.recorder;
+    var file = props.appClient.file;
     const makeToggleRequest = () => {
         if (props.record) {
             props.setAnimationVisible(false);

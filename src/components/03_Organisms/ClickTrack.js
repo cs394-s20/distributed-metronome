@@ -3,19 +3,25 @@ import React, { useState } from 'react';
 function ClickTrack(props) {
     const recorder = props.appClient.recorder;
     const [clickTrack, setClickTrack] = useState(false);
+    const [playback, setPlayback] = useState(null);
     var btnMessage = clickTrack ? "Change Clicktrack:" : "Upload Clicktrack:";
 
-    const uploadFile = () => {
+    const uploadFile = event => {
+
         if (clickTrack) {
-            recorder.stopPlayBack();
-            // props.setPlayBack(false);
+            // setPlayBack(false);
             setClickTrack(false);
+            setPlayback(event.target.files[0])
         }
         else {
-            recorder.startPlayBack();
-            // props.setPlayBack(true);
+            // setPlayBack(true);
             setClickTrack(true);
+            setPlayback(event.target.files[0])
         }
+    }
+
+    const playFile = () => {
+
     }
 
     return (
