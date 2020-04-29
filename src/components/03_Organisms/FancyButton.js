@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../../styles/styles.scss';
 import Countdown from 'react-countdown-now';
 import TogglePlayBack from './TogglePlayBack';
+import ToggleTwitch from './ToggleTwitch';
 
 
 function FancyButton(props) {
@@ -18,6 +19,7 @@ function FancyButton(props) {
             roomClient.stopMetronome();
             document.getElementById("fancy-button").style.display = "none";
             document.getElementById("toggle-playback").style.display = "none";
+            document.getElementById("toggle-twitch").style.display = "none";
             // we have to wait for all the chunks to come back from the server before we can download
             // right now we will use a default 4 seconds wait, but this should change
             window.setTimeout(() => setDownloadDisabled(false), 4000);
@@ -77,6 +79,9 @@ function FancyButton(props) {
             {downloadButton}
             <div id="toggle-playback">
                 <TogglePlayBack appClient={props.appClient}></TogglePlayBack>
+            </div>
+            <div id="toggle-twitch">
+                <ToggleTwitch appClient={props.appClient} record = {props.record}></ToggleTwitch>
             </div>
 
         </div>
