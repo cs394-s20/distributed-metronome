@@ -7,14 +7,15 @@ function Header(props) {
     let roomCount;
 
     if (props.leaveButton){
-         leaveButton = (<button className="button--orange" onClick={() => props.setPage('home')}>Leave Session</button>);
+         leaveButton = (<button className="button--orange" onClick={() => {props.setPage('home'); props.appClient.recorder.stopPlayBack();}}>Leave Session</button>);
     }
 
     if (props.roomCode){
         roomCode = (<span className="roomCode">Room Code: {props.appClient.roomClient.roomCode}</span>);
     }
 
-    if (props.appClient.roomClient.roomCode){
+
+    if (props.roomCount){
         var roomClient = props.appClient.roomClient;
         function UserCount(){
             let [count, setCount] = useState(1);

@@ -13,39 +13,45 @@ function Controller(props){
     let currPage;
     let leaveButton;
     let roomCode;
+    let roomCount;
+    let notAlerted;
 
     if (page === 'home'){
         leaveButton = false;
         roomCode = false;
+        roomCount = false;
         currPage = <Home setPage={setPage} appClient={props.appClient} mode={mode}/>
     }
 
     if (page === 'joinSession'){
         leaveButton = false;
         roomCode = false;
+        roomCount = false;
         currPage = <JoinSession setPage={setPage} appClient={props.appClient} mode={mode}/>
     }
 
     if (page === 'startRecording'){
+        notAlerted = false;
         leaveButton = true;
         roomCode = true;
         currPage = <StartRecording setPage={setPage} appClient={props.appClient} page={page}/>
+        roomCount = true;
     }
 
     if (page === 'confirmation'){
         leaveButton = true;
         roomCode = true;
+        roomCount = true;
         currPage = <Confirmation setPage={setPage} appClient={props.appClient} mode={mode}/>
     }
 
     return(
         <React.Fragment>
-            <Header setPage={setPage} appClient={props.appClient} leaveButton={leaveButton} roomCode={roomCode} mode={mode}/>
+            <Header setPage={setPage} appClient={props.appClient} leaveButton={leaveButton} roomCode={roomCode} roomCount={roomCount} mode={mode}/>
             <div className="content" style = { { backgroundImage : "url(" + require("./bg.png") + ")" } }>
                 {currPage}
                 <Footer setMode={setMode}/>
             </div>
-            
         </React.Fragment>
     )
 }

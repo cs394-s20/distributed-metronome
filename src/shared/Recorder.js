@@ -14,19 +14,20 @@ export default class Recorder {
         this.stopPlayBack = this.stopPlayBack.bind(this);
         this.playBuffer = this.playBuffer.bind(this);
         this.saveRecording = this.saveRecording.bind(this);
+        this.handlePlayback = this.handlePlayback.bind(this);
         this.saveChunk.bind(this);
         this.context = null;
         this.playBackBuffer = null;
+        this.source = null;
         this.chunks = [[], []];
         this.chunks_recorded = 0;
         this.chunks_returned = 0;
 
-
         this.record = false;
-        this.playback = true;
+        this.playback = false;
         this.processor = processor
         navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-            .then(this.handleSuccess);
+            .then(this.handleSuccess).then(this.handlePlayback);
     }
 
     handleSuccess = function (stream) {
@@ -45,7 +46,11 @@ export default class Recorder {
             }
         }.bind(this);
 
+        return stream;
+    };
 
+    handlePlayback = function (stream) {
+        this.source = this.context.createMediaStreamSource(stream);
     };
 
     startRecording = function () {
@@ -57,17 +62,17 @@ export default class Recorder {
 
     stopRecording = function () {
         this.record = false;
+        this.source.disconnect();
+
     }
 
 
     startPlayBack = function () {
-        this.playback = true;
-        console.log("true");
+        this.source.connect(this.context.destination);
     }
 
     stopPlayBack = function () {
-        this.playback = false;
-        console.log("false");
+        this.source.disconnect();
     }
 
     playBuffer(buffer) {
@@ -76,17 +81,6 @@ export default class Recorder {
         for (var channel = 0; channel < myArrayBuffer.numberOfChannels; channel++) {
 
             myArrayBuffer.copyToChannel(Float32Array.from(buffer[channel]), channel);
-
-        }
-
-
-        // start the source playing
-
-        if (this.playback) {
-            var test = this.context.createBufferSource();
-            test.buffer = myArrayBuffer;
-            test.connect(this.context.destination);
-            test.start();
 
         }
 

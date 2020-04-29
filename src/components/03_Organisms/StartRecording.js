@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { ReactMic } from '@cleandersonlobo/react-mic';
+import React, { useState, useEffect } from 'react';
 import '../../styles/styles.scss';
 import RoomClient from '../../shared/RoomClient';
 import FancyButton from './FancyButton';
-import metronome from '../../animation.gif';
+// import metronome from '../../animations/animation.gif';
+// import musicnote from '../../animations/animation2.gif';
 
-var recording = false;
 
 function StartRecording(props) {
   const roomClient = props.appClient.roomClient;
@@ -13,15 +12,23 @@ function StartRecording(props) {
 
   const [record, setRecord] = useState(false);
   const [animationVisible, setAnimationVisible] = useState(false);
+  const [i, set_i] = useState(0);
 
-  let animation = <img className="animation" src={metronome} alt="Recording..." />
+  let images = ["metronome","musicnote","piano","record"]
+
+  useEffect(() => {
+    alert('Wear headphones to prevent any playback from being recorded.');
+  }, []);
+
+  let animation = <img className="animation" src={require(`../../animations/${images[i]}.gif`)} alt="Recording..." onClick={() => (i==images.length-1)? set_i(0) : set_i(i+1)} />
+
   return (
     <div>
       <div className="flexRow justifyContentCenter">
         {animationVisible ? animation : ""}
       </div>
-      <div className="flexRow justifyContentCenter">
-        <FancyButton setRecord={setRecord} record={record} appClient={props.appClient} setAnimationVisible={setAnimationVisible} page={props.page}/>
+      <div className="flexColumn justifyContentCenter">
+        <FancyButton setRecord={setRecord} record={record} appClient={props.appClient} setAnimationVisible={setAnimationVisible} page={props.page} />
       </div>
     </div>
   )
