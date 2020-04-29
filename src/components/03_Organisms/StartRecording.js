@@ -16,10 +16,6 @@ function StartRecording(props) {
 
   let images = ["metronome","musicnote","piano","record"]
 
-  useEffect(() => {
-    alert('Wear headphones to prevent any playback from being recorded.');
-  }, []);
-
   let animation = <img className="animation" src={require(`../../animations/${images[i]}.gif`)} alt="Recording..." onClick={() => (i==images.length-1)? set_i(0) : set_i(i+1)} />
 
   return (
