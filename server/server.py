@@ -46,6 +46,7 @@ async def hello(websocket, path):
                 
 
             elif data_loaded["type"] == "stop_metronome":
+                room.end_stream()
                 asyncio.create_task(send_all(json.dumps(data_loaded)))
                 for user in room.users:
                     room.user_data[user] = {}
@@ -107,9 +108,10 @@ async def delay_combine_send(chunk_id, room, original_data):
     await asyncio.sleep(2)
     room.combine_chunks(chunk_id)
 
-    original_data["data"]["channels"] = room.combined_data[chunk_id]
+    original_data["data"]["channels"] = copy.deepcopy(room.combined_data[chunk_id])
+    del room.combined_data[chunk_id]
     for w in room.users:
-        if False:
+        if True:
             asyncio.create_task(send_message(w, json.dumps(original_data)))
 
 async def send_all(message):

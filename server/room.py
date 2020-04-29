@@ -29,7 +29,7 @@ class Room:
         return ''.join([random.choice(possible) for i in range(4)])
 
     def combine_chunks(self, chunk_id):
-        self.combined_data[chunk_id] = [[0 for j in range(8192)] for i in range(2)]
+        self.combined_data[chunk_id] = [[0 for j in range(16384)] for i in range(2)]
         for u in self.users:
             try:
                 for ch in range(2):
@@ -45,12 +45,16 @@ class Room:
                 #self.combined_data[chunk_id][ch][j] = max(-1.0, min(1.0, self.combined_data[chunk_id][ch][j]))
                 
     def start_stream(self):
-        command = 'ffmpeg -f f32be -ac 2 -ar 48000 -i ' + self.audio_channel_paths[0] + ' -stream_loop -1 -r 5 -i test.png -preset veryfast -s 720x480 -codec:v libx264 -codec:a aac -ar 48000 -pix_fmt yuv420p -crf 40 -f flv rtmp://live-ord02.twitch.tv/app/live_206561454_WB6SYeSn330x8TgYEtodTJc1tDtSRM'
+        command = 'ffmpeg -thread_queue_size 4096 -f f32be -ac 2 -ar 48000 -i ' + self.audio_channel_paths[0] + ' -stream_loop -1 -r 15 -i test.png -preset ultrafast -s 1280x720 -codec:v libx264 -codec:a aac -ar 48000 -pix_fmt yuv420p -crf 40 -f flv rtmp://live-ord02.twitch.tv/app/live_206561454_WB6SYeSn330x8TgYEtodTJc1tDtSRM'
         print(command)
         self.ffmpeg_thread = subprocess.Popen(command.split(' '))
         self.stream_started = True
         self.audio_writer = open(self.audio_channel_paths[0], "wb")
         print("stream has started")
+
+    def end_stream(self):
+        self.stream_started = False
+        self.ffmpeg_thread.kill()
 
                     
 
