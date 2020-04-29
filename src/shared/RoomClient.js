@@ -9,7 +9,8 @@ export default class RoomClient {
         this.onData = this.doNothing;
         this.onCreateRoom = this.doNothing;
         this.onJoinRoom = this.doNothing;
-        this.onListUsers = this.doNothing
+        this.onListUsers = this.doNothing;
+        this.twitch = false;
 
         this.connect = this.connect.bind(this);
         this.attachProcessors = this.attachProcessors.bind(this);
@@ -81,7 +82,8 @@ export default class RoomClient {
 
         let message = {
             "type": "start_metronome",
-            "ts": (new Date()).getTime()
+            "ts": (new Date()).getTime(),
+            "twitch": this.twitch
         };
 
         this.send(JSON.stringify(message));
@@ -125,6 +127,14 @@ export default class RoomClient {
         }
 
         this.send(JSON.stringify(message));
+    }
+
+    startTwitch() {
+        this.twitch = true;
+    }
+
+    stopTwitch() {
+        this.twitch = false;
     }
 
 }
