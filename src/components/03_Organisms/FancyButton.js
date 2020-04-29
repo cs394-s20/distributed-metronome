@@ -10,6 +10,7 @@ function FancyButton(props) {
     const [startCount, setStartCount] = useState(false);
     const [downloadDisabled, setDownloadDisabled] = useState(true);
     const [downloadVisible, setDownloadVisible] = useState(false);
+    const [clickTrack, setClickTrack] = useState(null);
     let downloadButton = downloadVisible ? <button onClick={() => recorder.saveRecording()} disabled={downloadDisabled} className={downloadDisabled ? null : "button--purple"} >{downloadDisabled ? 'Please wait...' : 'Download!'}</button> : "";
 
     const roomClient = props.appClient.roomClient;
@@ -19,6 +20,9 @@ function FancyButton(props) {
         if (props.record) {
             props.setAnimationVisible(false);
             roomClient.stopMetronome();
+            if (clickTrack) {
+                clickTrack.pause();
+            }
             document.getElementById("fancy-button").style.display = "none";
             document.getElementById("toggle-playback").style.display = "none";
             document.getElementById("click-track").style.display = "none";
@@ -31,6 +35,9 @@ function FancyButton(props) {
         else {
 
             roomClient.startMetronome();
+            if (clickTrack) {
+                clickTrack.play();
+            }
         }
     }
 
@@ -60,7 +67,9 @@ function FancyButton(props) {
 
     }
 
-    const onFileChange = () => {
+    const uploadFile = event => {
+
+        setClickTrack(new Audio(event.target.files[0]))
 
     }
 
@@ -85,8 +94,21 @@ function FancyButton(props) {
             <div id="toggle-playback">
                 <TogglePlayBack appClient={props.appClient}></TogglePlayBack>
             </div>
-            <div id="click-track">
-                <ClickTrack appClient={props.appClient}></ClickTrack>
+            <div id="click-track" style= {{backgroundColor: 'rgb(255, 213, 74)', 
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '50px',
+                width: "430px",
+                fontSize: "16px",
+                borderRadius: "10px",
+                color: 'white',
+                border: 'none',
+                margin: '10px'
+
+                }}>
+            <label for="file">Upload Clicktrack:</label>
+            <input type="file" accept="audio/*" onChange={uploadFile} style={{width:'50%'}}/>
             </div>
 
         </div>
