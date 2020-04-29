@@ -1,11 +1,12 @@
 .recordings-list{
-    height: 200px;
+    height: 230px;
     width: 430px;
     border-radius: 2px;
     color: black;
     border: none;
     margin: 10px;
     background-color: white;
+    justify-content: right;
 }
 
 h3{
@@ -15,6 +16,14 @@ h3{
     padding-top: 7px;
     font-weight: normal;
     margin: 20px;
+}
+
+h4{
+    font-weight: bold;
+    color: black;
+    font-size: 40px;
+    text-align: center;
+    margin: 0px;
 }
 
 h5{
