@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/styles.scss';
 import RoomClient from '../../shared/RoomClient';
 import FancyButton from './FancyButton';
+import Recordings_list from '../../components/02_Molecules/Recordings-List/Recordings-List';
 // import metronome from '../../animations/animation.gif';
 // import musicnote from '../../animations/animation2.gif';
 
@@ -29,6 +30,9 @@ function StartRecording(props) {
       </div>
       <div className="flexColumn justifyContentCenter">
         <FancyButton setRecord={setRecord} record={record} appClient={props.appClient} setAnimationVisible={setAnimationVisible} page={props.page} />
+      </div>
+      <div>
+        <Recordings_list></Recordings_list>
       </div>
     </div>
   )
