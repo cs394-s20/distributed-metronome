@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../../styles/styles.scss';
 import Countdown from 'react-countdown-now';
 import TogglePlayBack from './TogglePlayBack';
-import ClickTrack from './ClickTrack';
+
 
 
 
