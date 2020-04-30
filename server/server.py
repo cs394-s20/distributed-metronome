@@ -20,6 +20,8 @@ STATE = {
 }
 MESSAGE_QUEUE = []
 
+final_chunk = None
+
 async def hello(websocket, path):
     STATE['connections'].append(websocket)
     room = None
@@ -31,6 +33,8 @@ async def hello(websocket, path):
             data_loaded = json.loads(data)
             
             if data_loaded["type"] == "data":
+                if data_loaded["isFinal"] == True:
+                    final_chunk = data_loaded["data"]["id"]
                 
                 room.user_data[websocket][data_loaded["data"]["id"]] = copy.deepcopy(data_loaded["data"]["channels"])
                 
@@ -111,7 +115,8 @@ async def delay_combine_send(chunk_id, room, original_data):
     original_data["data"]["channels"] = copy.deepcopy(room.combined_data[chunk_id])
     del room.combined_data[chunk_id]
     for w in room.users:
-        if True:
+        # del room.user_data[w][chunk_id]
+        if w.open is True and (final_chunk == None or final_chunk == chunk_id):
             asyncio.create_task(send_message(w, json.dumps(original_data)))
 
 async def send_all(message):
@@ -124,5 +129,7 @@ async def send_message(websocket, message):
     
 
 start_server = websockets.serve(hello, "0.0.0.0", port)
+# start_server = websockets.serve(hello, "localhost", port)
+
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()

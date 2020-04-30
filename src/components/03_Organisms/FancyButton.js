@@ -24,10 +24,11 @@ function FancyButton(props) {
             // right now we will use a default 4 seconds wait, but this should change
             window.setTimeout(() => setDownloadDisabled(false), 4000);
             setDownloadVisible(true);
+            props.appClient.isFinal = true;
 
         }
         else {
-
+            props.appClient.isFinal = false;
             roomClient.startMetronome();
         }
     }

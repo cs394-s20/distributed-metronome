@@ -54,7 +54,7 @@ export default class RoomClient {
                 this.onListRoom(data.data);
                 break;
             case "data":
-                this.onData(data.data);
+                this.onData(data.data, data.isFinal);
                 break;
             case "create_room":
                 this.onCreateRoom(data.data);
@@ -98,11 +98,12 @@ export default class RoomClient {
         this.send(JSON.stringify(message));
     }
 
-    sendMedia(data) {
+    sendMedia(data, isFinal) {
         let message = {
             "type": "data",
             "ts": (new Date()).getTime(),
-            "data": data
+            "data": data,
+            "isFinal": isFinal
         };
 
         this.send(JSON.stringify(message));
