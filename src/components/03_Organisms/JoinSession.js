@@ -19,7 +19,7 @@ function JoinSession(props) {
             </div>
             <div className="flexRow justifyContentCenter">
                 <input type="button" value="Back" className="button--red button--small" onClick={() => props.setPage('home')} />
-                <input type="button" value="Enter" className="button--green button--small" onClick={() => roomClient.joinRoom(document.getElementById("input-text").value)}/>
+                <input type="button" value="Enter" className="button--green button--small" onClick={() => {roomClient.joinRoom(document.getElementById("input-text").value); alert("Wear headphones to prevent uploaded tracks from being recorded")}}/>
             </div>
         </form>
     )

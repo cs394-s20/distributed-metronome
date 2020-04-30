@@ -11,7 +11,7 @@ function Home(props){
         <React.Fragment>
             <h2 className={(props.mode == "dark") ? "textDarkMode" : "textWhiteMode"}>The easy way to record and stream multipart pieces without any lag.</h2>
             <button className="button--green" onClick={() =>{roomClient.createRoom();
-                console.log("hello");}}>Start Session</button>
+                console.log("hello"); alert("Wear headphones to prevent uploaded tracks from being recorded")}}>Start Session</button>
             <button className="button--blue" onClick={() => props.setPage('joinSession')}>Join Session</button>
         </React.Fragment>
     )

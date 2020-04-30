@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/styles.scss';
 import RoomClient from '../../shared/RoomClient';
 import FancyButton from './FancyButton';
-import metronome from '../../animations/animation.gif';
-import musicnote from '../../animations/animation2.gif';
+import Recordings_list from '../../components/02_Molecules/Recordings-List/Recordings-List';
+// import metronome from '../../animations/animation.gif';
+// import musicnote from '../../animations/animation2.gif';
 
 
 function StartRecording(props) {
@@ -12,23 +13,12 @@ function StartRecording(props) {
 
   const [record, setRecord] = useState(false);
   const [animationVisible, setAnimationVisible] = useState(false);
-  const [whichAnimation, setWhichAnimation] = useState('metronome');
+  const [i, set_i] = useState(0);
 
+  let images = ["metronome","musicnote","piano","record"]
 
-  const toggleAnimation = () => {
-    if (whichAnimation == 'metronome') {
-      setWhichAnimation('musicnote');
-    }
-    else {
-      setWhichAnimation('metronome');
-    }
-  };
+  let animation = <img className="animation" src={require(`../../animations/${images[i]}.gif`)} alt="Recording..." onClick={() => (i==images.length-1)? set_i(0) : set_i(i+1)} />
 
-  useEffect(() => {
-    alert('Wear headphones to prevent any playback from being recorded.');
-  }, []);
-
-  let animation = <img className="animation" src={(whichAnimation == 'metronome') ? metronome : musicnote} alt="Recording..." onClick={() => toggleAnimation()} />
   return (
     <div>
       <div className="flexRow justifyContentCenter">
@@ -36,6 +26,9 @@ function StartRecording(props) {
       </div>
       <div className="flexColumn justifyContentCenter">
         <FancyButton setRecord={setRecord} record={record} appClient={props.appClient} setAnimationVisible={setAnimationVisible} page={props.page} />
+      </div>
+      <div>
+        <Recordings_list></Recordings_list>
       </div>
     </div>
   )

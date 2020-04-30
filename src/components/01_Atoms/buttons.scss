@@ -44,8 +44,18 @@ button{
         height:50px;
         font-size:16px;
     }
+<<<<<<< HEAD
     &--yellow-long{
         background-color: $yellow;
+=======
+    &--red-long{
+        background-color:$red;
+        height:50px;
+        font-size:16px;
+    }
+    &--purple-long{
+        background-color:$purple;
+>>>>>>> master
         height:50px;
         font-size:16px;
     }

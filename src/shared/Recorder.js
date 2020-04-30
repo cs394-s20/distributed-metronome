@@ -33,9 +33,8 @@ export default class Recorder {
     handleSuccess = function (stream) {
         this.context = new AudioContext();
         const source = this.context.createMediaStreamSource(stream);
-        const processor = this.context.createScriptProcessor(8192, 2, 1);
-        
-        console.log("handleSuccess");
+        const processor = this.context.createScriptProcessor(16384, 2, 1);
+
         source.connect(processor);
         processor.connect(this.context.destination);
 
@@ -77,7 +76,7 @@ export default class Recorder {
     }
 
     playBuffer(buffer) {
-        var myArrayBuffer = this.context.createBuffer(2, 8192, 48000);
+        var myArrayBuffer = this.context.createBuffer(2, 16384, 48000);
 
         for (var channel = 0; channel < myArrayBuffer.numberOfChannels; channel++) {
 

@@ -19,7 +19,7 @@ function TogglePlayBack(props) {
     }
 
     return (
-        <button type="button" onClick={makeToggleRequest} className="button--orange-long">{btnMessage}</button>
+        <button type="button" onClick={makeToggleRequest} className={playback ? "button--red-long": "button--orange-long"}>{btnMessage}</button>
     );
 
 }
