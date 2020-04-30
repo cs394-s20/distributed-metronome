@@ -44,6 +44,16 @@ button{
         height:50px;
         font-size:16px;
     }
+    &--red-long{
+        background-color:$red;
+        height:50px;
+        font-size:16px;
+    }
+    &--purple-long{
+        background-color:$purple;
+        height:50px;
+        font-size:16px;
+    }
 }
 
 input[type=button],input[type=submit]{
