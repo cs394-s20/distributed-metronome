@@ -11,7 +11,7 @@ function FancyButton(props) {
     const [startCount, setStartCount] = useState(false);
     const [downloadDisabled, setDownloadDisabled] = useState(true);
     const [downloadVisible, setDownloadVisible] = useState(false);
-    const [clickTrack, setClickTrack] = useState(null);
+    const [clickTrack, setClickTrack] = useState(new Audio());
     let downloadButton = downloadVisible ? <button onClick={() => recorder.saveRecording()} disabled={downloadDisabled} className={downloadDisabled ? null : "button--purple"} >{downloadDisabled ? 'Please wait...' : 'Download!'}</button> : "";
 
     const roomClient = props.appClient.roomClient;
@@ -71,7 +71,12 @@ function FancyButton(props) {
 
     const uploadFile = event => {
 
-        setClickTrack(new Audio(event.target.files[0]))
+        setClickTrack(event.target.files[0])
+        console.log(event.target.files[0])
+        const aud = new Audio(event.target.files[0])
+        aud.load()
+        aud.play()
+        console.log(aud)
 
     }
 
@@ -96,27 +101,10 @@ function FancyButton(props) {
             <div id="toggle-playback">
                 <TogglePlayBack appClient={props.appClient}></TogglePlayBack>
             </div>
-            <div id="click-track" style= {{backgroundColor: 'rgb(255, 213, 74)', 
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '50px',
-                width: "430px",
-                fontSize: "16px",
-                borderRadius: "10px",
-                color: 'white',
-                border: 'none',
-                margin: '10px'
-
-                }}>
             <div id="toggle-twitch">
                 <ToggleTwitch appClient={props.appClient} record = {props.record}></ToggleTwitch>
             </div>
-            <label for="file">Upload Clicktrack:</label>
-            <input type="file" accept="audio/*" onChange={uploadFile} style={{width:'50%'}}/>
             
-
-        </div>
         </div>
     )
 }
