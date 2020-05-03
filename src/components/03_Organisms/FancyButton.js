@@ -13,16 +13,21 @@ function FancyButton(props) {
     const [downloadDisabled, setDownloadDisabled] = useState(true);
     const [downloadVisible, setDownloadVisible] = useState(false);
     const [clickTrack, setClickTrack] = useState([]);
-    const [playBack, setPlayBack] = useState([]);
+    const [playBack, setPlayBack] = useState(null);
     let downloadButton = downloadVisible ? <button onClick={() => recorder.saveRecording()} disabled={downloadDisabled} className={downloadDisabled ? null : "button--purple"} >{downloadDisabled ? 'Please wait...' : 'Download!'}</button> : "";
 
     const roomClient = props.appClient.roomClient;
     const recorder = props.appClient.recorder;
     var file = props.appClient.file;
+    recorder.onDownloadReady = () => {
+        setDownloadDisabled(false);
+        roomClient.clearData();
+    }
     const makeToggleRequest = () => {
         if (props.record) {
             props.setAnimationVisible(false);
-            roomClient.stopMetronome();
+            recorder.lastChunk = recorder.chunks_recorded;
+            roomClient.stopMetronome(recorder.lastChunk);
             if (playBack) {
                 playBack.pause();
             }
@@ -32,7 +37,7 @@ function FancyButton(props) {
             document.getElementById("toggle-twitch").style.display = "none";
             // we have to wait for all the chunks to come back from the server before we can download
             // right now we will use a default 4 seconds wait, but this should change
-            window.setTimeout(() => setDownloadDisabled(false), 4000);
+            //window.setTimeout(() => setDownloadDisabled(false), 4000);
             setDownloadVisible(true);
             props.appClient.isFinal = true;
 
@@ -151,6 +156,7 @@ function FancyButton(props) {
                             // console.log(clickTrack[0])
                             // console.log(real_click_track)
                             setPlayBack(new Audio(real_click_track))
+                            console.log("here");
                             // playBack.play()
                             // console.log(playBack)
                             

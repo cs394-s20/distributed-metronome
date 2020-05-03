@@ -22,6 +22,8 @@ export default class Recorder {
         this.chunks = [[], []];
         this.chunks_recorded = 0;
         this.chunks_returned = 0;
+        this.onDownloadReady = null;
+        this.lastChunk = -1;
 
         this.record = false;
         this.playback = false;
@@ -89,7 +91,6 @@ export default class Recorder {
     }
 
     saveChunk(buffer) {
-        this.chunks_returned += 1;
         for (var c = 0; c < 2; c++) {
             this.chunks[c].extend(buffer[c]);
         }
