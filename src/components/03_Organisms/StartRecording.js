@@ -27,9 +27,6 @@ function StartRecording(props) {
       <div className="flexColumn justifyContentCenter">
         <FancyButton setRecord={setRecord} record={record} appClient={props.appClient} setAnimationVisible={setAnimationVisible} page={props.page} />
       </div>
-      <div>
-        <Recordings_list></Recordings_list>
-      </div>
     </div>
   )
 }

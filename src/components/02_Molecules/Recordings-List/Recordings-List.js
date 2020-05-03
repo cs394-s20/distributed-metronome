@@ -3,49 +3,57 @@ import '../../../styles/styles.scss';
 
 function Recordings_list(props) {
 
-   function changeColor1(props) {
-       if (document.getElementById("1").style.backgroundColor == 'lightgray') {
-           document.getElementById("1").style.backgroundColor = 'lightgreen' 
-       }
-       else {
-           document.getElementById("1").style.backgroundColor = 'lightgray'
-       }
+    const [clickTrack, setClickTrack] = useState([]);
+    const uploadFile = event => {
+
+        // const files =  event.currentTarget.files;
+  
+        // Array.from(files).forEach(file => console.log("Do something with " + file.name));
+
+        setClickTrack(event.currentTarget.files)
+    }
+    
+
+   function changeColor(name) {
+       if (document.getElementById(name)) {
+            if (document.getElementById(name).style.backgroundColor == 'lightgray') {
+                document.getElementById(name).style.backgroundColor = 'lightgreen' 
+            }
+            else {
+                document.getElementById(name).style.backgroundColor = 'lightgray'
+            }
+        }
    }
-   function changeColor2(props) {
-        if (document.getElementById("2").style.backgroundColor == 'lightgray') {
-            document.getElementById("2").style.backgroundColor = 'lightgreen' 
-        }
-        else {
-            document.getElementById("2").style.backgroundColor = 'lightgray'
-        }
-    }
-    function changeColor3(props) {
-        if (document.getElementById("3").style.backgroundColor == 'lightgray') {
-            document.getElementById("3").style.backgroundColor = 'lightgreen' 
-        }
-        else {
-            document.getElementById("3").style.backgroundColor = 'lightgray'
-        }
-    }
-    function changeColor4(props) {
-        if (document.getElementById("4").style.backgroundColor == 'lightgray') {
-            document.getElementById("4").style.backgroundColor = 'lightgreen' 
-        }
-        else {
-            document.getElementById("4").style.backgroundColor = 'lightgray'
-        }
-    }
 
 
 
     return (
-        <div className="recordings-list">
-            <h3>Uploaded Files</h3>
-            <h5 id="1" onClick={changeColor1}>clicktrack1.mp3</h5>
-            <h5 id="2" onClick={changeColor2}>clicktrack2.mp3</h5>
-            <h5 id="3" onClick={changeColor3}>background-instrument-1.wav</h5>
-            <h5 id="4" onClick={changeColor4}>background-instrument-2.wav</h5>
-            <h4 onClick={() => {}}>+</h4>
+        <div id="click-track" className="recordings-list" style= {{
+            backgroundColor: 'rgb(255, 213, 74)', 
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 'auto',
+            width: "430px",
+            fontSize: "16px",
+            borderRadius: "10px",
+            color: 'white',
+            border: 'none',
+            margin: '10px',
+            flexDirection: 'column'
+            
+
+            }}>
+            <div style= {{margin: '10px'}}>
+            
+            <label>Upload Clicktrack:</label>
+            <input type="file" accept="audio/*" onChange={uploadFile} style={{width:'50%'}} multiple/>
+
+            </div>
+            <div style={{marginBottom: '10px'}}>
+                {Array.from(clickTrack).map((track,index) =>
+                <h5 id={index.toString()} key={index.toString()} onClick={changeColor(index.toString())}>{track.name}</h5>)}
+            </div>
         </div>
     )
 }
