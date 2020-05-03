@@ -13,16 +13,21 @@ function FancyButton(props) {
 
     const roomClient = props.appClient.roomClient;
     const recorder = props.appClient.recorder;
+    recorder.onDownloadReady = () => {
+        setDownloadDisabled(false);
+        roomClient.clearData();
+    }
     const makeToggleRequest = () => {
         if (props.record) {
             props.setAnimationVisible(false);
-            roomClient.stopMetronome();
+            recorder.lastChunk = recorder.chunks_recorded;
+            roomClient.stopMetronome(recorder.lastChunk);
             document.getElementById("fancy-button").style.display = "none";
             document.getElementById("toggle-playback").style.display = "none";
             document.getElementById("toggle-twitch").style.display = "none";
             // we have to wait for all the chunks to come back from the server before we can download
             // right now we will use a default 4 seconds wait, but this should change
-            window.setTimeout(() => setDownloadDisabled(false), 4000);
+            //window.setTimeout(() => setDownloadDisabled(false), 4000);
             setDownloadVisible(true);
             props.appClient.isFinal = true;
 

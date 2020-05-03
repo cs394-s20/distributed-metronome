@@ -20,6 +20,7 @@ export default class RoomClient {
         this.sendMedia = this.sendMedia.bind(this);
         this.createRoom = this.createRoom.bind(this);
         this.joinRoom = this.joinRoom.bind(this);
+        this.clearData = this.clearData.bind(this);
 
         this.connect();
         this.attachProcessors();
@@ -89,10 +90,13 @@ export default class RoomClient {
         this.send(JSON.stringify(message));
     }
 
-    stopMetronome() {
+    stopMetronome(chunkId) {
         let message = {
             "type": "stop_metronome",
-            "ts": (new Date()).getTime()
+            "ts": (new Date()).getTime(),
+            "data": {
+                "id": chunkId
+            }
         };
 
         this.send(JSON.stringify(message));
@@ -116,6 +120,12 @@ export default class RoomClient {
         }
 
         this.send(JSON.stringify(message));
+    }
+
+    clearData(){
+        let message = {
+            "type" : "clear_data",
+        }
     }
 
     joinRoom(code){
