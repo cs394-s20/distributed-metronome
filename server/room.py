@@ -17,6 +17,8 @@ class Room:
         self.generate_pipes()
         self.delay = 6
         self.stream_started = False
+        self.starting_stream = False
+        self.last_chunk = -1
 
     def generate_pipes(self):
         self.audio_channel_paths = ['/tmp/' + self.code + str(i) for i in range(2)]
@@ -36,8 +38,11 @@ class Room:
                     for j in range(len(self.combined_data[chunk_id][ch])):
                         self.combined_data[chunk_id][ch][j] += self.user_data[u][chunk_id][ch][j]
                 del self.user_data[u][chunk_id]
-            except:
-                pass
+            except Exception as e:
+                print(e)
+                
+        if self.starting_stream:
+            self.start_stream()
         if self.stream_started: 
             for j in range(len(self.combined_data[chunk_id][ch])):
                 for ch in range(2):
@@ -45,7 +50,11 @@ class Room:
                 #self.combined_data[chunk_id][ch][j] = max(-1.0, min(1.0, self.combined_data[chunk_id][ch][j]))
                 
     def start_stream(self):
-        command = 'ffmpeg -thread_queue_size 4096 -f f32be -ac 2 -ar 48000 -i ' + self.audio_channel_paths[0] + ' -stream_loop -1 -r 15 -i test.png -preset ultrafast -s 1280x720 -codec:v libx264 -codec:a aac -ar 48000 -pix_fmt yuv420p -crf 40 -f flv rtmp://live-ord02.twitch.tv/app/live_206561454_WB6SYeSn330x8TgYEtodTJc1tDtSRM'
+
+        self.starting_stream = False
+        if self.stream_started:
+            return
+        command = 'ffmpeg -thread_queue_size 4096 -f f32be -ac 2 -ar 48000 -i ' + self.audio_channel_paths[0] + ' -stream_loop -1 -r 15 -i test.png -preset ultrafast -s 1280x720 -af asetpts=PTS,arealtime,asetpts=PTS -codec:v libx264 -codec:a aac -ar 48000 -pix_fmt yuv420p -crf 40 -f flv rtmp://live-ord02.twitch.tv/app/live_206561454_WB6SYeSn330x8TgYEtodTJc1tDtSRM'
         print(command)
         self.ffmpeg_thread = subprocess.Popen(command.split(' '))
         self.stream_started = True

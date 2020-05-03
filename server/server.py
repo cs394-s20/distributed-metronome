@@ -42,14 +42,15 @@ async def hello(websocket, path):
                 start_time = datetime.datetime.utcnow().timestamp() + 5
                 data_loaded = {"type": "start_metronome", "data":{"ts":  start_time}}
                 asyncio.create_task(send_all(json.dumps(data_loaded)))
-                room.start_stream()
+                if room.stream_started is False:
+                    room.starting_stream = True 
+                    print("starting stream")
                 
 
             elif data_loaded["type"] == "stop_metronome":
+                room.last_chunk = data_loaded["data"]["id"]
                 room.end_stream()
                 asyncio.create_task(send_all(json.dumps(data_loaded)))
-                for user in room.users:
-                    room.user_data[user] = {}
 
             elif data_loaded["type"] == "create_room":
                 room = Room()
@@ -59,6 +60,10 @@ async def hello(websocket, path):
                 STATE['rooms'][code] = room
                 data_loaded["data"] = {"code": code}
                 asyncio.create_task(send_message(websocket, json.dumps(data_loaded)))
+
+            elif data_loaded["type"] == "clear_data":
+                for w in room.users:
+                    room.user_data[w] = {}
 
             elif data_loaded["type"] == "join_room":
                 code = data_loaded["data"]["code"]
@@ -101,17 +106,14 @@ async def list_users(room):
 
 async def delay_combine_send(chunk_id, room, original_data):
     
-    for i in range(2):
-        for j in range(len(original_data["data"]["channels"][i])):
-            original_data["data"]["channels"][i][j] = 0
-    
-    await asyncio.sleep(2)
-    room.combine_chunks(chunk_id)
+    if room.last_chunk < 0 or chunk_id <= room.last_chunk:
+        await asyncio.sleep(2)
 
-    original_data["data"]["channels"] = copy.deepcopy(room.combined_data[chunk_id])
-    del room.combined_data[chunk_id]
-    for w in room.users:
-        if True:
+        room.combine_chunks(chunk_id)
+    
+        original_data["data"]["channels"] = copy.deepcopy(room.combined_data[chunk_id])
+        del room.combined_data[chunk_id]
+        for w in room.users:
             asyncio.create_task(send_message(w, json.dumps(original_data)))
 
 async def send_all(message):
