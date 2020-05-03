@@ -13,12 +13,12 @@ function FancyButton(props) {
     const [downloadDisabled, setDownloadDisabled] = useState(true);
     const [downloadVisible, setDownloadVisible] = useState(false);
     const [clickTrack, setClickTrack] = useState([]);
-    const [playBack, setPlayBack] = useState([]);
+    const [playBack, setPlayBack] = useState(null);
     let downloadButton = downloadVisible ? <button onClick={() => recorder.saveRecording()} disabled={downloadDisabled} className={downloadDisabled ? null : "button--purple"} >{downloadDisabled ? 'Please wait...' : 'Download!'}</button> : "";
 
     const roomClient = props.appClient.roomClient;
     const recorder = props.appClient.recorder;
-<<<<<<< HEAD
+    var file = props.appClient.file;
     recorder.onDownloadReady = () => {
         setDownloadDisabled(false);
         roomClient.clearData();
@@ -28,16 +28,9 @@ function FancyButton(props) {
             props.setAnimationVisible(false);
             recorder.lastChunk = recorder.chunks_recorded;
             roomClient.stopMetronome(recorder.lastChunk);
-=======
-    var file = props.appClient.file;
-    const makeToggleRequest = () => {
-        if (props.record) {
-            props.setAnimationVisible(false);
-            roomClient.stopMetronome();
             if (playBack) {
                 playBack.pause();
             }
->>>>>>> master
             document.getElementById("fancy-button").style.display = "none";
             document.getElementById("toggle-playback").style.display = "none";
             document.getElementById("click-track").style.display = "none";
@@ -163,6 +156,7 @@ function FancyButton(props) {
                             // console.log(clickTrack[0])
                             // console.log(real_click_track)
                             setPlayBack(new Audio(real_click_track))
+                            console.log("here");
                             // playBack.play()
                             // console.log(playBack)
                             

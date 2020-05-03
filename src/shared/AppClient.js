@@ -3,7 +3,7 @@ import Recorder from './Recorder';
 
 export default class AppClient {
     constructor(){
-        this.roomClient = new RoomClient('ws://3.22.61.250:3002');
+        this.roomClient = new RoomClient('wss://dm.johnflaboe.com');
         // this.roomClient = new RoomClient('ws://localhost:5000');
 
         this.recorder = new Recorder();
