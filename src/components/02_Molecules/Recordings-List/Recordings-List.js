@@ -48,7 +48,6 @@ function Recordings_list(props) {
             
             <label>Upload Clicktrack:</label>
             <input type="file" accept="audio/*" onChange={uploadFile} style={{width:'50%'}} multiple/>
-            
 
             </div>
             <div style={{marginBottom: '10px'}}>
