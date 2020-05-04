@@ -28,9 +28,7 @@ function FancyButton(props) {
             props.setAnimationVisible(false);
             recorder.lastChunk = recorder.chunks_recorded;
             roomClient.stopMetronome(recorder.lastChunk);
-            if (playBack) {
-                playBack.pause();
-            }
+            
             document.getElementById("fancy-button").style.display = "none";
             document.getElementById("toggle-playback").style.display = "none";
             document.getElementById("click-track").style.display = "none";
@@ -45,9 +43,7 @@ function FancyButton(props) {
         else {
             props.appClient.isFinal = false;
             roomClient.startMetronome();
-            if (playBack) {
-                playBack.play();
-            }
+            
         }
     }
 
@@ -69,9 +65,15 @@ function FancyButton(props) {
 
         if (!startCount & !props.record) {
             setStartCount(true);
+            if (playBack) {
+                playBack.play();
+            }
         }
         else if (!startCount & props.record) {
             recorder.stopRecording();
+            if (playBack) {
+                playBack.pause();
+            }
 
         }
 
