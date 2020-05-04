@@ -15,6 +15,7 @@ export default class Recorder {
         this.playBuffer = this.playBuffer.bind(this);
         this.saveRecording = this.saveRecording.bind(this);
         this.handlePlayback = this.handlePlayback.bind(this);
+        this.startProcessor = this.startProcessor.bind(this);
         this.saveChunk.bind(this);
         this.context = null;
         this.playBackBuffer = null;
@@ -24,17 +25,39 @@ export default class Recorder {
         this.chunks_returned = 0;
         this.onDownloadReady = null;
         this.lastChunk = -1;
+        this.stream = null;
+        this.processor_started = false;
 
         this.record = false;
         this.playback = false;
         this.processor = processor
         navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-            .then(this.handleSuccess).then(this.handlePlayback);
+            .then(this.handleSuccess);
     }
 
     handleSuccess = function (stream) {
-        this.context = new AudioContext();
+        this.stream = stream;
+        /*this.context = new AudioContext();
         const source = this.context.createMediaStreamSource(stream);
+        const processor = this.context.createScriptProcessor(16384, 2, 1);
+
+        source.connect(processor);
+        processor.connect(this.context.destination);
+
+        processor.onaudioprocess = function (e) {
+            // Do something with the data, e.g. convert it to WAV
+
+            if (this.record) {
+                this.processor(e);
+            }
+        }.bind(this);*/
+
+        return stream;
+    };
+
+    startProcessor = function(){
+        this.context = new AudioContext();
+        const source = this.context.createMediaStreamSource(this.stream);
         const processor = this.context.createScriptProcessor(16384, 2, 1);
 
         source.connect(processor);
@@ -48,14 +71,19 @@ export default class Recorder {
             }
         }.bind(this);
 
-        return stream;
-    };
+        this.handlePlayback(this.stream);
+    }
 
     handlePlayback = function (stream) {
         this.source = this.context.createMediaStreamSource(stream);
     };
 
     startRecording = function () {
+        if (!this.processor_started){
+            this.processor_started = true;
+            this.startProcessor();
+        }
+        
         this.chunks = [[], []];
         this.chunks_recorded = 0;
         this.chunks_returned = 0;
