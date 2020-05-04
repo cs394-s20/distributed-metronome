@@ -31,7 +31,6 @@ async def hello(websocket, path):
             data = await websocket.recv()
             
             data_loaded = json.loads(data)
-            
             if data_loaded["type"] == "data":
                 if data_loaded["isFinal"] == True:
                     final_chunk = data_loaded["data"]["id"]
@@ -113,7 +112,7 @@ async def delay_combine_send(chunk_id, room, original_data):
     if room.last_chunk < 0 or chunk_id <= room.last_chunk:
         await asyncio.sleep(2)
 
-        room.combine_chunks(chunk_id)
+        await room.combine_chunks(chunk_id)
     
         original_data["data"]["channels"] = copy.deepcopy(room.combined_data[chunk_id])
         del room.combined_data[chunk_id]
