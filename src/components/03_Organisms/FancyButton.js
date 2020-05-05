@@ -119,9 +119,9 @@ function FancyButton(props) {
         <div>
             <button id="fancy-button" onClick={makeToggleRequest} type="button" className={startCount ? "button--yellow" : props.record ? "button--red" : "button--green"}>{buttonMessage}</button>
             {downloadButton}
-            <div id="toggle-playback">
+            {/* <div id="toggle-playback">
                 <TogglePlayBack appClient={props.appClient}></TogglePlayBack>
-            </div>
+            </div> */}
             <div id="toggle-twitch">
                 <ToggleTwitch appClient={props.appClient} record = {props.record}></ToggleTwitch>
             </div>

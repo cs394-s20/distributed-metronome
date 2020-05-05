@@ -10,8 +10,8 @@ export default class Recorder {
         this.handleSuccess = this.handleSuccess.bind(this);
         this.startRecording = this.startRecording.bind(this);
         this.stopRecording = this.stopRecording.bind(this);
-        this.startPlayBack = this.startPlayBack.bind(this);
-        this.stopPlayBack = this.stopPlayBack.bind(this);
+        // this.startPlayBack = this.startPlayBack.bind(this);
+        // this.stopPlayBack = this.stopPlayBack.bind(this);
         this.playBuffer = this.playBuffer.bind(this);
         this.saveRecording = this.saveRecording.bind(this);
         this.handlePlayback = this.handlePlayback.bind(this);
@@ -97,13 +97,13 @@ export default class Recorder {
     }
 
 
-    startPlayBack = function () {
-        this.source.connect(this.context.destination);
-    }
+    // startPlayBack = function () {
+    //     this.source.connect(this.context.destination);
+    // }
 
-    stopPlayBack = function () {
-        this.source.disconnect();
-    }
+    // stopPlayBack = function () {
+    //     this.source.disconnect();
+    // }
 
     playBuffer(buffer) {
         var myArrayBuffer = this.context.createBuffer(2, 16384, 48000);
