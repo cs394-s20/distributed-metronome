@@ -51,6 +51,7 @@ async def hello(websocket, path):
                 
 
             elif data_loaded["type"] == "stop_metronome":
+                room.starting_stream = False
                 room.last_chunk = data_loaded["data"]["id"]
                 room.end_stream()
                 asyncio.create_task(send_all(json.dumps(data_loaded)))
