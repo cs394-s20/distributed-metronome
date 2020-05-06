@@ -58,7 +58,11 @@ export default class Recorder {
     };
 
     startProcessor = function(){
-        this.context = new AudioContext();
+        let musicContext = new AudioContext({
+            latencyHint: "interactive",
+            sampleRate: 48000
+          });
+        this.context = new AudioContext(musicContext);
         const source = this.context.createMediaStreamSource(this.stream);
         const processor = this.context.createScriptProcessor(512, 2, 1);
 
