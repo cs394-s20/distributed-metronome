@@ -16,7 +16,7 @@ function Recordings_list(props) {
 
    function changeColor(name) {
        if (document.getElementById(name)) {
-            if (document.getElementById(name).style.backgroundColor == 'lightgray') {
+            if (document.getElementById(name).style.backgroundColor === 'lightgray') {
                 document.getElementById(name).style.backgroundColor = 'lightgreen' 
             }
             else {

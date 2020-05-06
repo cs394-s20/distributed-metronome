@@ -36,7 +36,7 @@ function Header(props) {
         <div className="header">
             <h1>Metronome</h1>
             <div className="flexRow">
-                <div className={(props.mode == "dark") ? "header__roomInfo textDarkMode" : "header__roomInfo textWhiteMode"}>
+                <div className={(props.mode === "dark") ? "header__roomInfo textDarkMode" : "header__roomInfo textWhiteMode"}>
                     {roomCode}
                     {roomCount}
                 </div>

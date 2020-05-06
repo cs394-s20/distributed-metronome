@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import '../../styles/styles.scss';
 import Countdown from 'react-countdown-now';
-import TogglePlayBack from './TogglePlayBack';
 import ToggleTwitch from './ToggleTwitch';
 import real_click_track from '../../music/click-track-9.mp3';
-
 
 
 
@@ -18,7 +16,8 @@ function FancyButton(props) {
 
     const roomClient = props.appClient.roomClient;
     const recorder = props.appClient.recorder;
-    var file = props.appClient.file;
+    // var file = props.appClient.file;
+
     recorder.onDownloadReady = () => {
         setDownloadDisabled(false);
         roomClient.clearData();
@@ -28,20 +27,28 @@ function FancyButton(props) {
             props.setAnimationVisible(false);
             recorder.lastChunk = recorder.chunks_recorded;
             roomClient.stopMetronome(recorder.lastChunk);
+
+            if (playBack) {
+                console.log("pause")
+                playBack.pause();
+            }
             
             document.getElementById("fancy-button").style.display = "none";
             document.getElementById("click-track").style.display = "none";
             document.getElementById("toggle-twitch").style.display = "none";
+
             // we have to wait for all the chunks to come back from the server before we can download
             // right now we will use a default 4 seconds wait, but this should change
             //window.setTimeout(() => setDownloadDisabled(false), 4000);
             setDownloadVisible(true);
             props.appClient.isFinal = true;
+            
 
         }
         else {
             props.appClient.isFinal = false;
             roomClient.startMetronome();
+            
             
         }
     }
@@ -52,6 +59,11 @@ function FancyButton(props) {
             props.setRecord(true);
             props.setAnimationVisible(true);
             recorder.startRecording();
+
+            if (playBack) {
+                playBack.play();
+            }
+
             setStartCount(false);
             // Render a complete state
             return "";
@@ -64,40 +76,24 @@ function FancyButton(props) {
 
         if (!startCount & !props.record) {
             setStartCount(true);
-            if (playBack) {
-                playBack.play();
-            }
+            // if (playBack) {
+            //     playBack.play();
+            // }
         }
         else if (!startCount & props.record) {
             recorder.stopRecording();
-            if (playBack) {
-                playBack.pause();
-            }
+            // if (playBack) {
+            //     console.log("pause")
+            //     playBack.pause();
+            // }
 
         }
 
     }
 
     const uploadFile = event => {
-
         setClickTrack(event.currentTarget.files)
-        // console.log(event.target.files[0])
-        // const aud = new Audio(event.target.files[0])
-        // aud.load()
-        // aud.play()
-        // console.log(aud)
-
-    }
-
-    function changeColor(name) {
-        if (document.getElementById(name)) {
-             if (document.getElementById(name).style.backgroundColor == 'lightgray') {
-                 document.getElementById(name).style.backgroundColor = 'lightgreen' 
-             }
-             else {
-                 document.getElementById(name).style.backgroundColor = 'lightgray'
-             }
-         }
+        
     }
 
     roomClient.onMetronomeStart = toggleRecording;
@@ -151,23 +147,18 @@ function FancyButton(props) {
                 <h5 id={index.toString()} key={index.toString()} style={{backgroundColor: 'lightgray'}} onClick={(e) => {
                     // console.log(document.getElementById(e.currentTarget.id).style)
                     
-                         if (document.getElementById(e.currentTarget.id).style.backgroundColor == 'lightgray') {
+                         if (document.getElementById(e.currentTarget.id).style.backgroundColor === 'lightgray') {
                             document.getElementById(e.currentTarget.id).style.backgroundColor = 'lightgreen'
-                            // setPlayBack(new Audio(clickTrack[e.currentTarget.id]))
-                            // console.log(clickTrack[0])
-                            // console.log(real_click_track)
-                            setPlayBack(new Audio(real_click_track))
-                            console.log("here");
-                            // playBack.play()
-                            // console.log(playBack)
                             
+                            console.log(clickTrack[index])
+                            var url = URL.createObjectURL(clickTrack[index])
+                            setPlayBack(new Audio(url))
+                            // setPlayBack(new Audio(real_click_track))
                             
                          }
                          else {
                             document.getElementById(e.currentTarget.id).style.backgroundColor = 'lightgray'
                             setPlayBack(null)
-                            // playBack.pause()
-                            // playBack.play()
                             console.log(playBack)
                         } }}>{track.name}</h5>
                 )}
