@@ -38,6 +38,7 @@ export default class Recorder {
 
     handleSuccess = function (stream) {
         this.stream = stream;
+        this.startProcessor();
         /*this.context = new AudioContext();
         const source = this.context.createMediaStreamSource(stream);
         const processor = this.context.createScriptProcessor(16384, 2, 1);
@@ -80,15 +81,16 @@ export default class Recorder {
     };
 
     startRecording = function () {
+        this.record = true;
         if (!this.processor_started){
             this.processor_started = true;
-            this.startProcessor();
+            
         }
         
         this.chunks = [[], []];
         this.chunks_recorded = 0;
         this.chunks_returned = 0;
-        this.record = true;
+        
     }
 
     stopRecording = function () {
