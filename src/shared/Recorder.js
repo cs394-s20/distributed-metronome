@@ -27,6 +27,7 @@ export default class Recorder {
         this.lastChunk = -1;
         this.stream = null;
         this.processor_started = false;
+        this.send_buffer = [[], []];
 
         this.record = false;
         this.playback = false;
@@ -58,7 +59,7 @@ export default class Recorder {
     startProcessor = function(){
         this.context = new AudioContext();
         const source = this.context.createMediaStreamSource(this.stream);
-        const processor = this.context.createScriptProcessor(16384, 2, 1);
+        const processor = this.context.createScriptProcessor(512, 2, 1);
 
         source.connect(processor);
         processor.connect(this.context.destination);
