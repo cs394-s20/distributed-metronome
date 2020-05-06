@@ -30,7 +30,6 @@ function FancyButton(props) {
             roomClient.stopMetronome(recorder.lastChunk);
             
             document.getElementById("fancy-button").style.display = "none";
-            document.getElementById("toggle-playback").style.display = "none";
             document.getElementById("click-track").style.display = "none";
             document.getElementById("toggle-twitch").style.display = "none";
             // we have to wait for all the chunks to come back from the server before we can download
