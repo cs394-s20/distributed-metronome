@@ -28,6 +28,8 @@ export default class Recorder {
         this.stream = null;
         this.processor_started = false;
         this.send_buffer = [[], []];
+        this.record_start_time = null;
+        this.small_chunk_count = 0;
 
         this.record = false;
         this.playback = false;
@@ -73,6 +75,7 @@ export default class Recorder {
             // Do something with the data, e.g. convert it to WAV
 
             if (this.record) {
+                this.small_chunk_count++;
                 this.processor(e);
             }
         }.bind(this);
@@ -86,6 +89,7 @@ export default class Recorder {
 
     startRecording = function () {
         this.record = true;
+        this.record_start_time = Date.now();
         if (!this.processor_started){
             this.processor_started = true;
             
