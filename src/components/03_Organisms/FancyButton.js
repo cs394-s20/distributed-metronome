@@ -86,7 +86,6 @@ function FancyButton(props) {
             document.getElementById("toggle-twitch").style.display = "none";
             recorder.lastChunk = data["id"];
             // if (playBack) {
-            //     console.log("pause")
             //     playBack.pause();
             // }
 
