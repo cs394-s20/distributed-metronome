@@ -59,6 +59,14 @@ button{
     }
 }
 
+button:disabled,
+button[disabled]{
+    background-color:$purple;
+    height:50px;
+    font-size:16px;
+    color: white;
+}
+
 input[type=button],input[type=submit]{
     @extend button;
 }
