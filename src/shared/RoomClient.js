@@ -49,6 +49,7 @@ export default class RoomClient {
                 this.onMetronomeStart(data.data);
                 break;
             case "stop_metronome":
+                console.log("stopping");
                 this.onMetronomeStop(data.data);
                 break;
             case "list_room":

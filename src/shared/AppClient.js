@@ -24,10 +24,16 @@ export default class AppClient {
         }.bind(this);
 
         this.recorder.processor = function(e){
-            var channels = [];
+            this.recorder.send_buffer[0] = this.recorder.send_buffer[0].concat(Array.prototype.slice.call(e.inputBuffer.getChannelData(0)));
+            this.recorder.send_buffer[1] = this.recorder.send_buffer[1].concat(Array.prototype.slice.call(e.inputBuffer.getChannelData(1)));
+            if (this.recorder.send_buffer[0].length >= 16384){
+                this.roomClient.sendMedia({channels: this.recorder.send_buffer.slice(), id: ++this.recorder.chunks_recorded}, this.isFinal);
+                this.recorder.send_buffer = [[], []]
+            }
+            /*var channels = [];
             channels.push(Array.prototype.slice.call(e.inputBuffer.getChannelData(0)));
             channels.push(Array.prototype.slice.call(e.inputBuffer.getChannelData(1)));
-            this.roomClient.sendMedia({channels: channels, id: ++this.recorder.chunks_recorded}, this.isFinal );
+            this.roomClient.sendMedia({channels: channels, id: ++this.recorder.chunks_recorded}, this.isFinal );*/
         }.bind(this);
     }
 
