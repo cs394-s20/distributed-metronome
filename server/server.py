@@ -2,6 +2,8 @@ import asyncio
 import websockets
 import sys
 import json
+import ssl
+import pathlib
 import struct
 import audioop
 import datetime
@@ -128,8 +130,9 @@ async def send_all(message):
 async def send_message(websocket, message):
     await websocket.send(message)
     
-
-start_server = websockets.serve(hello, "0.0.0.0", port)
+ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+ssl_context.load_cert_chain(certfile="/etc/letsencrypt/live/dm.johnflaboe.com/fullchain.pem", keyfile="/etc/letsencrypt/live/dm.johnflaboe.com/privkey.pem")
+start_server = websockets.serve(hello, "0.0.0.0", port, ssl=ssl_context)
 # start_server = websockets.serve(hello, "localhost", port)
 
 asyncio.get_event_loop().run_until_complete(start_server)
