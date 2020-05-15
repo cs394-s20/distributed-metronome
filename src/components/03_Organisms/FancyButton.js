@@ -27,20 +27,17 @@ function FancyButton(props) {
             props.setAnimationVisible(false);
             recorder.lastChunk = recorder.chunks_recorded;
             roomClient.stopMetronome(recorder.lastChunk);
-
             if (playBack) {
                 console.log("pause")
                 playBack.pause();
             }
             
-            document.getElementById("fancy-button").style.display = "none";
-            document.getElementById("click-track").style.display = "none";
-            document.getElementById("toggle-twitch").style.display = "none";
+            
 
             // we have to wait for all the chunks to come back from the server before we can download
             // right now we will use a default 4 seconds wait, but this should change
             //window.setTimeout(() => setDownloadDisabled(false), 4000);
-            setDownloadVisible(true);
+            
             props.appClient.isFinal = true;
             
 
@@ -72,18 +69,23 @@ function FancyButton(props) {
             return <span>{seconds}</span>;
         }
     };
-    const toggleRecording = () => {
+    const toggleRecording = (data) => {
 
         if (!startCount & !props.record) {
             setStartCount(true);
+            
             // if (playBack) {
             //     playBack.play();
             // }
         }
         else if (!startCount & props.record) {
             recorder.stopRecording();
+            setDownloadVisible(true);
+            document.getElementById("fancy-button").style.display = "none";
+            document.getElementById("click-track").style.display = "none";
+            document.getElementById("toggle-twitch").style.display = "none";
+            recorder.lastChunk = data["id"];
             // if (playBack) {
-            //     console.log("pause")
             //     playBack.pause();
             // }
 

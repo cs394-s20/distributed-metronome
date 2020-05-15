@@ -27,6 +27,9 @@ export default class Recorder {
         this.lastChunk = -1;
         this.stream = null;
         this.processor_started = false;
+        this.send_buffer = [[], []];
+        this.record_start_time = null;
+        this.small_chunk_count = 0;
 
         this.record = false;
         this.playback = false;
@@ -37,6 +40,7 @@ export default class Recorder {
 
     handleSuccess = function (stream) {
         this.stream = stream;
+        this.startProcessor();
         /*this.context = new AudioContext();
         const source = this.context.createMediaStreamSource(stream);
         const processor = this.context.createScriptProcessor(16384, 2, 1);
@@ -56,9 +60,13 @@ export default class Recorder {
     };
 
     startProcessor = function(){
-        this.context = new AudioContext();
+        let musicContext = new AudioContext({
+            latencyHint: "interactive",
+            sampleRate: 48000
+          });
+        this.context = new AudioContext(musicContext);
         const source = this.context.createMediaStreamSource(this.stream);
-        const processor = this.context.createScriptProcessor(16384, 2, 1);
+        const processor = this.context.createScriptProcessor(512, 2, 1);
 
         source.connect(processor);
         processor.connect(this.context.destination);
@@ -67,6 +75,7 @@ export default class Recorder {
             // Do something with the data, e.g. convert it to WAV
 
             if (this.record) {
+                this.small_chunk_count++;
                 this.processor(e);
             }
         }.bind(this);
@@ -79,15 +88,17 @@ export default class Recorder {
     };
 
     startRecording = function () {
+        this.record = true;
+        this.record_start_time = Date.now();
         if (!this.processor_started){
             this.processor_started = true;
-            this.startProcessor();
+            
         }
         
         this.chunks = [[], []];
         this.chunks_recorded = 0;
         this.chunks_returned = 0;
-        this.record = true;
+        
     }
 
     stopRecording = function () {
